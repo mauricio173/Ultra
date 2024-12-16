@@ -48,14 +48,24 @@ ul {
 }
 
 .header img {
- margin: 0 16px;
+ margin: 0 0 0 48px;
 }
 
 .nav {
-  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: calc(100% - 130px);
   
 }
 
+.nav ul {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  
+}
 
 .main {
   display: flex;
