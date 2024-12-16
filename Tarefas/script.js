@@ -2762,6 +2762,7 @@ function validarCampoCategoriaEdt(input_categoria) {
 
 let categorias = document.querySelector(".categorias");
 
+/*
 const removerChave = document.querySelector("#removerChave");
 document.getElementById("removerChave").addEventListener("click", function () {
  // event.preventDefault();
@@ -2772,6 +2773,8 @@ document.getElementById("removerChave").addEventListener("click", function () {
  // verTarefas();
  // categoriasDataList();
 });
+*/
+
 document.getElementById("tbody_tarefas").addEventListener("click", fecharTarefasFiltradas);
 
 function tops(event) {
