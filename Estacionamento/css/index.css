@@ -47,6 +47,10 @@ ul {
  padding: 16px 0;
 }
 
+.header img {
+ margin: 0 16px;
+}
+
 .nav {
   width: 100%;
   
