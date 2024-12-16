@@ -2182,7 +2182,7 @@ table.addEventListener("scroll", () => {
 // ${document.body.offsetWidth} px.
 // `;
 // console.log(document.body.offsetWidth);
-console.log(window.scrollY);
+
 window.addEventListener("scroll", function () {
  const dropdown = document.querySelectorAll(".dropdown-menu a");
  var header = document.querySelector(".header");
