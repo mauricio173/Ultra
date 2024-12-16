@@ -1,0 +1,285 @@
+* {
+ padding: 0;
+ margin: 0;
+ box-sizing: border-box;
+ --preto: #181818dd;
+ --white: #fdfdfd;
+ --branco: #ffffff;
+ --red: #f9004d;
+ --azulP: #05465d;
+ --roxo: #a44378;
+ --verde: #28abab;
+ --laranja: #f58e2f;
+}
+
+body {
+ display: flex;
+ flex-wrap: wrap;
+ flex: 1 1 100vw;
+ background: var(--laranja);
+}
+
+a {
+ color: var(--roxo);
+ text-decoration: none;
+}
+
+.box_center {
+ display: flex;
+ flex-flow: row wrap;
+ justify-content: center;
+ align-items: center;
+}
+
+/* .main {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: calc(100vw - 12px);
+} */
+
+#menu_device_ul {
+ display: flex;
+ flex-flow: row wrap;
+ justify-content: space-around;
+ width: 100vw;
+}
+
+#menu_device_ul,
+#menu_device_ul li,
+#menu_device_ul a {
+ padding: 0;
+ margin: 0;
+ list-style: none;
+ text-decoration: none;
+}
+
+#menu_device_ul a {
+ color: var(--roxo);
+}
+
+#menu_mobile_ul {
+ /*  height: 100%;
+ width: 100%; */
+}
+
+#menu_mobile_ul,
+#menu_mobile_ul li,
+#menu_mobile_ul li a {
+ padding: 0;
+ margin: 0;
+ list-style: none;
+ text-decoration: none;
+}
+
+#menu_mobile_ul li {
+ position: relative;
+ top: -130px;
+
+ margin-bottom: 1rem;
+
+ color: #000;
+}
+
+#menu_mobile_ul li:hover a {
+ background: #000039;
+ color: #fff;
+}
+
+#menu_mobile_ul a {
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ text-align: left;
+ width: 200px;
+ height: 50px;
+ padding: 1rem;
+ border: 1px solid #000;
+ color: var(--roxo);
+}
+
+/* #menu_mobile_ul li {
+ display: flex;
+ flex-flow: column wrap;
+ justify-content: center;
+ 
+} */
+
+/* #menu_mobile_ul a {
+  display: flex;
+  justify-content: center;
+  text-align: left;
+  padding: 1rem;
+  height: 100%;
+  width: 100%;
+ color: #000;
+} */
+
+#js_datas a {
+ position: absolute;
+ display: flex;
+ flex-flow: row wrap;
+ font-size: 16px;
+ width: 300px;
+ top: 200px;
+ left: -50px;
+}
+
+#js_datas,
+#js_datas a {
+ border: none;
+}
+
+.offcanvas-body {
+ display: flex;
+ flex-flow: column wrap;
+ justify-content: center;
+ align-items: center;
+}
+
+.header.scrolled {
+ padding: 16px 8px;
+ height: auto;
+ background-color: #fa0053;
+ transform: scale(1);
+ position: fixed;
+ top: 0;
+ left: 0;
+ right: 0;
+ z-index: 999;
+}
+
+.offcanvas-start.show {
+ height: 100%;
+}
+
+.menu_mobile {
+ visibility: hidden;
+}
+
+.bs-tooltip-auto {
+ top: -150px;
+}
+
+#btn_addTarefa {
+ width: 100%;
+}
+
+/*
+.table-wrapper {
+  
+        overflow-y: auto;
+        max-height: 400px; 
+        position: relative; 
+        height: 195px; 
+    }
+
+  .table-wrapper  thead {
+        position: sticky;
+        top: 0;
+        background-color: white; 
+        z-index: 3;
+    }
+
+  .table-wrapper  tbody {
+        overflow-y: auto;
+         max-height: calc(100% - 40px); 
+        
+        
+    }
+  .table-wrapper  th, td {
+        min-width: 100px; 
+        padding: 8px; 
+    }*/
+/*     tbody tr {
+        margin: 0 0 18px;
+    } */
+
+/*
+.caption-container {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.caption-container .btn {
+  float: right;
+}
+
+.caption-container.fixed {
+  position: absolute;
+}
+*/
+
+.label_opcoes:hover {
+ background: green;
+}
+
+.scroll-y {
+ max-height: 300px;
+ height: 300px;
+ /* Altura máxima da tabela */
+ overflow-y: scroll; /* Adiciona scroll no eixo y quando a tabela exceder a altura máxima */
+}
+
+.tarefas .table-responsive::-webkit-scrollbar {
+ width: 10px;
+}
+.tarefas .table-responsive::-webkit-scrollbar-track {
+ background: #f1f1f1;
+}
+
+.tarefas .table-responsive::-webkit-scrollbar-thumb {
+ background: #888;
+}
+
+.tarefas .table-responsive::-webkit-scrollbar-thumb:hover {
+ background: #555;
+}
+
+@media screen and (min-width: 800px) {
+ #modal-body-add-tarefa form .div_tarefas,
+ #modal-body-add-tarefa form .div_categorias,
+ #modal-body-add-tarefa form .div_datas {
+  /* display: flex;
+ flex-flow: column wrap; */
+  width: 100%;
+ }
+ .main {
+  display: flex;
+  flex-wrap: wrap;
+  width: calc(100vw);
+ }
+ .tarefas {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100vw;
+ }
+}
+
+@media screen and (max-width: 800px) {
+ .menu_mobile {
+  visibility: visible;
+ }
+ .tarefas {
+  width: calc(100vw);
+ }
+ .tarefas form {
+  padding: 0;
+  margin: 0;
+ }
+ #menu_device_ul {
+  display: none;
+ }
+ #thead_tarefas tr th {
+  min-height: 90px;
+  /*  height: 90px; */
+  min-width: 100px;
+  width: 100px;
+ }
+ #tbody_tarefas .taskItem td {
+  min-height: 90px;
+  height: 90px;
+  min-width: 100px;
+  width: 100px;
+ }
+}
