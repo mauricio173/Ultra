@@ -1,0 +1,291 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ --preto: #181818dd;
+ --white: #fdfdfd;
+ --red: #f9004d;
+ --azulP: #05465d;
+ --roxo: #a44378;
+ --verde: #28abab;
+ --laranja: #f58e2f;
+ font-family: "Poppins", sans-serif;
+ }
+
+body {
+ background: var(--verde);
+}
+
+p {
+ margin: 0;
+}
+
+a {
+ color: var(--roxo);
+ text-decoration: none;
+}
+
+ul {
+ display: flex;
+ flex-flow: row wrap;
+ gap: 16px;
+ list-style: none;
+ margin: 0;
+}
+
+.header,
+.footer {
+ display: flex;
+ flex-wrap: wrap;
+ flex: 1 1 100vw;
+ background: #fff;
+}
+
+.header {
+ padding: 16px 0;
+}
+
+.main {
+  display: flex;
+  align-items: center;
+  flex-flow: row wrap;
+  justify-content: center;
+}
+
+.marca {
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ font-size: 18px;
+ text-align: center;
+ flex-flow: row wrap;
+ margin: 0.1rem 1rem 0.1rem;
+}
+
+#invalido {
+  font-size: 10px;
+  height: 17.5px;
+}
+
+.boxSec {
+  
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--preto);
+  opacity: 0.9;
+  
+}
+
+.containerSec {
+  
+  
+  display: flex;
+  align-items: center;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  
+}
+
+.containerSec label {
+  
+  width: 50%;
+ 
+  display: flex;
+  align-items: center;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  
+}
+
+.containerSec label input {
+  
+ 
+  display: flex;
+  align-items: center;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  
+}
+
+
+
+
+.marca p:nth-child(2) {
+ display: flex;
+ align-items: center;
+ justify-content: flex-start;
+ text-align: center;
+ flex-flow: row wrap;
+ padding-top: 7px;
+}
+
+#offcanvasExample {
+width: 100vw;
+height: 100vh;
+justify-content: center;
+align-items: center;
+}
+
+
+ @media screen and (min-width: 800px) {
+ .main {
+  width: 100%;
+ }
+
+ .registration-container {
+ 
+  width: 50%;
+ }
+ 
+} 
+
+ @media screen and (max-width: 800px) {
+
+ .dropPassword div input {
+  width: 60%;
+  
+}
+ .dropPassword div input:nth-child(2) {
+  width: 20%;
+  
+}
+} 
+
+.footer {
+ background: var(--verde);
+ border-radius: 0.5rem;
+ padding: 1rem;
+ margin: 4rem 1rem 1rem;
+}
+
+.registration-container {
+ background: #fff;
+ border-radius: 0.5rem;
+ border: 1px solid #000;
+ box-shadow: 3px 3px #0000009f;
+ padding: 1rem;
+ margin: 4rem 1rem 1rem;
+}
+
+.registration-container h2 {
+ font-weight: bold;
+ font-size: 1.4rem;
+ margin-bottom: 1rem;
+ position: relative;
+}
+
+.registration-container h2::after {
+ content: "";
+ position: absolute;
+ top: 100%;
+ left: 0;
+ height: 3px;
+ width: 20%;
+ border-radius: 2px;
+ background-color: var(--verde);
+}
+
+.three-details-item {
+ display: flex;
+ flex-wrap: wrap;
+}
+
+hr {
+ width: 70%;
+ height: 1px;
+ background-color: #d2d2d2;
+ margin: 1rem 0;
+ border: none;
+}
+
+.personal-details,
+.identity-details {
+ margin: 0.2rem 0;
+}
+
+.personal-details label,
+.identity-details label {
+ display: flex;
+ flex-flow: column wrap;
+ /*
+ 
+ margin: 0.5rem 1rem;
+ */
+ margin: 8px 0 16px;
+ font-size: 0.9rem;
+ font-weight: 600;
+}
+
+.three-details-item input {
+ outline: none;
+ font-size: 0.8rem;
+ border-radius: 0.2rem;
+ border: 1px solid rgb(113, 101, 101);
+ padding: 0.1rem;
+ background-color: transparent;
+}
+
+.submit-btn {
+ border: none;
+ background-color: var(--laranja);
+ box-shadow: 2px 2px var(--roxo);
+ color: #000000;
+ padding: 0.3rem 0.5rem;
+ display: block;
+ width: 40%;
+ margin: 0.6rem auto;
+ border-radius: 2rem;
+ font-size: 1.1rem;
+ cursor: pointer;
+}
+
+.boxBtn {
+  display: flex;
+  flex-flow: row wrap;
+  margin: 0 8px;
+}
+
+.boxBtn .submit-btn:nth-child(1) {
+  background-color: var(--verde);
+}
+
+.dropPassword {
+  display: flex;
+  width: 100%;
+  flex-flow: column wrap;
+  
+}
+
+.dropPassword div {
+  display: flex;
+  width: 100%;
+  flex-flow: row wrap;
+  flex: 1 1 100%;
+}
+
+
+/*.submit-btn:hover {
+ cursor: pointer;
+ background: rgba(0, 255, 13, 0.9);
+ color: #fff;
+ border-radius: 32px;
+ box-shadow:
+  0 0 5px rgba(0, 255, 13, 0.9),
+  0 0 25px rgba(0, 255, 13, 0.9),
+  0 0 50px rgba(0, 255, 13, 0.9),
+  0 0 100px rgba(0, 255, 13, 0.9);
+}*/
+
+#texArea {
+ display: flex;
+ align-items: center;
+ flex-flow: column wrap;
+ justify-content: space-around;
+ margin: 3px 16px;
+}
