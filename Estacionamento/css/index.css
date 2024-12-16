@@ -171,6 +171,32 @@ align-items: center;
   width: 20%;
   
 }
+
+.header {
+ justify-content: center;
+}
+
+.header img {
+ margin: 0 0 0 4px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-around;
+  padding: 0;
+  align-items: center;
+  width: calc(100%);
+  margin: 12px 0 0;
+}
+
+.nav ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 80px);
+  padding: 0;
+}
+
 } 
 
 .footer {
