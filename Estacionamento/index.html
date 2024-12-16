@@ -1,0 +1,168 @@
+<!doctype html>
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link
+   href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+   rel="stylesheet"
+   integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+   crossorigin="anonymous"
+  />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css" />
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="css/index.css" type="text/css" />
+  <script src="js/index.js" type="text/javascript" charset="utf-8" defer></script>
+  <title>Ultra Estacionamento v2 - Maurício Marques</title>
+ </head>
+ <body>
+<!--  <div class="boxSec">
+   <div class="containerSec">
+    <label class="" for="appSec">
+     <p>Senha</p>
+     <input type="text" name="appSec" id="appSec" placeholder="Digite a senha!" />
+    </label>
+   </div>
+  </div>-->
+<span>
+<a id="btnSec" style="" class="btn btn-primary d-none" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+  Link with href
+</a>
+
+
+<div class="offcanvas offcanvas-start show" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasExampleLabel">Verificação de Segurança</h5>
+    <button style="visibility: hidden" type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    <!--<div>
+      Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists, etc.
+    </div>-->
+    <div class="dropdown mt-3">
+      <h2>Senha de Segurança</h2>
+      <div class="dropPassword">
+      <div>
+        
+      
+      <input type="password" name="inputSec" id="inputSec" style=""
+      value="ultra10"
+      placeholder="Digite a senha!" />
+      <input type="button" name="btnOkSenha" id="btnOkSenha"
+       style=""
+      value="Enviar" />
+      </div>
+        <h6 class="dropPasswordH6"></h6>
+     </div>
+    </div>
+  </div>
+</div>
+<script>
+  const myOffcanvas = document.getElementById('btnSec')
+myOffcanvas.addEventListener('hidden.bs.offcanvas', event => {
+  //btnSec.show();
+  // do something...
+})
+  
+  classSelector.addEventListener("onload", functionName);
+  
+</script>
+</span>
+  <header class="header">
+   <nav class="">
+    <ul class="">
+     <li><a href="https://mauricio173.github.io/Estacionamento-Ultra" target="_self"> Início </a></li>
+     <li><a href="index.html" target="_self"> Estacionamento </a></li>
+     <li><a href="https://mauricio173.github.io/tarefa/" target="_self"> Tarefa </a></li>
+     <li><a href="https://mauricio173.github.io/Tarefas/index.html" target="_self" disabled> Tarefas </a></li>
+    </ul>
+   </nav>
+  </header>
+
+  <main class="main">
+   <section class="registration-container">
+    <h2>Cadastro de Estacionamento Ultra</h2>
+    <section class="details-section">
+     <form action="" class="registration-form">
+      <!-- Personal Details Section -->
+      <h4>Cadastro de Alunos</h4>
+      <section class="personal-details">
+       <div class="three-details-item">
+        <label for="nome">
+         <p>Nome Completo</p>
+         <input type="text" name="nome" id="nome" placeholder="Informe o nome" />
+        </label>
+       </div>
+       <div class="three-details-item">
+        <label for="cpf">
+         <p>CPF</p>
+         <input type="number" name="cpf" id="cpf" placeholder="Digite o CPF" maxlength="14" list="cpfList" />
+         <datalist id="cpfList">
+          <option value="02175203085"></option>
+
+          <option value="03312991196"></option>
+          <option value="93603835034"></option>
+          <option value="86569929020"></option>
+          <option value="00997902035"></option>
+          <option value="01048137090"></option>
+          <option value="72779330015"></option>
+          <option value="11111111111"></option>
+          <option value="12345678901"></option>
+          <option value="123456789"></option>
+         </datalist>
+        </label>
+       </div>
+
+       <div class="three-details-item" style="display: none">
+        <label for="dataInicio">
+         <p>Data Inicial</p>
+         <input type="text" name="dataInicio" id="dataInicio" placeholder="Digite a data de Início" />
+        </label>
+        <label for="dataFinal">
+         <p>Data Final</p>
+         <input type="text" name="dataFinal" id="dataFinal" placeholder="Digite a data de Fim" />
+        </label>
+       </div>
+      </section>
+      <p id="invalido" style="display: flex; visibility: hidden"></p>
+
+      <hr />
+
+      <!-- Identity Details Section -->
+
+      <h4>Outros Detalhes</h4>
+      <section class="identity-details">
+       <div class="three-details-item">
+        <span id="cadastros"> </span>
+       </div>
+      </section>
+      <div class="boxBtn">
+        
+     
+      <button id="btnEnviar" class="submit-btn">Enviar</button>
+      <button id="btnClear" class="submit-btn">Limpar</button>
+       </div>
+     </form>
+    </section>
+   </section>
+
+   <section class="container-fluid lista">
+     
+   </section>
+  </main>
+
+  <footer class="footer"></footer>
+  <div class="marca" style="">
+   <p style="font-size: 12px; margin-right: 2px">Maurício Marques</p>
+   <p style="">®</p>
+  </div>
+
+  <script
+   src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+   crossorigin="anonymous"
+  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/eruda" onload="eruda.init()"></script>
+ </body>
+</html>
