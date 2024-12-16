@@ -510,7 +510,8 @@ function tabelas() {
     LISTA DE TAREFAS 
     
       </h1>
-      <h6 style="color: var(--branco)">Presente pro Anderson</h6>
+    <!--  <h6 style="color: var(--branco)">Presente pro Anderson</h6>
+      -->
     </div>
       <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#modal_add_tarefa"
       style="margin: 1rem 0 .5rem;">
