@@ -62,6 +62,8 @@ const formatarData = data => {
 
 dataInicio.value = dataAtual;
 dataFinal.value = formatarData(dataFutura);
+nome.value = "Maurício Marques Teche De Rios"; 
+cpf.value = "02175203085";
 
 btnEnviar.addEventListener("click", event => {
  event.preventDefault();
