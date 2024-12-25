@@ -412,6 +412,15 @@ const nomeSobrenome = nomeValue.split(" ");
  }
 }
 
+function novoCpf() {
+  const cpfList = document.querySelector("#cpfList");
+  const cadastros = document.querySelector("#cadastros");
+  const option  = cpfList.querySelectorAll("option");
+ const i = cadastros.children.length;
+  cpf.value = option[i].value;
+  nome.value = "Maurício Marques Teche De Rios";
+}
+
 // Adiciona evento de clique no container cadastros
 document.querySelector("#cadastros").addEventListener("click", event => {
  // Verifica se o elemento clicado Ã© um <p>
