@@ -192,7 +192,6 @@ function verificar() {
  console.log(cadastrado);
 }
 
-
 function mostrarResultado(mensagem, valido) {
   const cadastros = document.querySelector("#cadastros");
   const invalido = document.querySelector("#invalido");
