@@ -138,6 +138,7 @@ function validarCPF() {
  }
 
  mostrarResultado("CPF Válido!", true);
+ novoCpf()
  return false; // Evita recarregar a página
 }
 
