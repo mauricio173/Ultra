@@ -269,6 +269,79 @@
     // Exibir os registros completos associados aos CPFs repetidos
     // console.log("Registros completos com CPFs repetidos:", registrosRepetidos);
    }
+   
+   function percorrer() {
+    const listas = document.querySelector("#listas");
+    const viewListas = document.querySelector("#viewListas");
+    viewListas.innerHTML = ``;
+
+    // Obter o conteúdo do elemento <label>
+    const label = document.getElementById("listasText").value;
+
+    // Expressão regular para encontrar CPFs (sequências de 11 dígitos)
+    const regexCPF = /\b\d{11}\b/g;
+
+    // Extrair CPFs do texto
+    const cpfs = label.match(regexCPF);
+
+    // Criar um mapa para contar as ocorrências
+    const cpfCounts = cpfs.reduce((acc, cpf) => {
+     acc[cpf] = (acc[cpf] || 0) + 1;
+     return acc;
+    }, {});
+
+    // Separar os CPFs repetidos (mais de 2 ocorrências)
+    const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
+
+    // Dividir o texto original em registros com base em quebras (supondo registros separados por espaço ou quebra de linha)
+    const registros = label.split(/(?<=\d{11})\s+/);
+
+    // Identificar os registros completos que contêm CPFs repetidos
+    const registrosRepetidos = registros.filter(registro => repeatedCPFs.some(cpf => registro.includes(cpf)));
+
+    // Verificar se há CPFs repetidos
+    if (repeatedCPFs.length === 0) {
+     console.log("Nenhum CPF repetido encontrado.");
+    }
+
+    console.log(repeatedCPFs);
+
+    // Exibir a quantidade de vezes que cada CPF repetido foi encontrado
+    repeatedCPFs.forEach(cpf => {
+     // Filtrar os registros para o CPF atual
+     const registrosDoCpf = registrosRepetidos.filter(registro => registro.includes(cpf));
+     console.log(`O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.`);
+
+     const p = document.createElement("span");
+     p.classList.add("el");
+     p.innerHTML = `
+      <p class="">
+      O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.
+      </p>
+      <p class="">
+      CPF: <br/> ${cpf}
+      </p>
+      <p class="">
+      Registros completos:
+      </p>
+      <ul class="ul">
+        ${registrosDoCpf.map(registro => `<li style="margin: 6px;">${registro}</li>`).join("")}
+      </ul>
+    `;
+     viewListas.appendChild(p);
+    });
+
+    // Adicionar um <span> contendo todos os CPFs repetidos
+    const spanCPFsRepetidos = document.createElement("span");
+    spanCPFsRepetidos.classList.add("cpf-repetidos");
+    spanCPFsRepetidos.innerHTML = `
+    <h3>CPFs Repetidos:</h3>
+    <ul>
+      ${repeatedCPFs.map(cpf => `<li>${cpf}</li>`).join("")}
+    </ul>
+  `;
+    viewListas.prepend(spanCPFsRepetidos);
+   }
 
    function functionNames() {
     const viewListas = document.querySelector("#viewListas");
