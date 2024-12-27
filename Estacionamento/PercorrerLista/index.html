@@ -52,12 +52,15 @@
    #listas,
    #viewAjustes {
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     width: calc(100vw - 20%);
     height: 250px;
     overflow: scroll;
     margin: 3px auto;
     border: 3px solid #000;
+   }
+   #listas {
+     display: none !important;
    }
 
    #h1 {
@@ -98,17 +101,6 @@
   <br />
   <br />
   <br />
-  <!--  <label id="lista">
-   <p>02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085</p>
-   <p>03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196</p>
-   <p>93603835034;MAURICIO RIOS;2024-12-25;2025-06-25;1;93603835034</p>
-   <p>86569929020;MAURICIO RIOS;2024-12-25;2025-06-25;1;86569929020</p>
-
-   <p>02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085</p>
-   <p>03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196</p>
-   <p>93603835034;MAURICIO RIOS;2024-12-25;2025-06-25;1;93603835034</p>
-   <p>86569929020;MAURICIO RIOS;2024-12-25;2025-06-25;1;86569929020</p>
-  </label>-->
   <textarea class="labelListas" name="" id="listasText" rows="8" cols="40" oninput="percorrer(), ajuste()"></textarea>
   <label class="labelListas d-n" id="listas">
    02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085 03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196 93603835034;MAURICIO 02175203085;MAURICIO
