@@ -108,7 +108,7 @@
    <p>93603835034;MAURICIO RIOS;2024-12-25;2025-06-25;1;93603835034</p>
    <p>86569929020;MAURICIO RIOS;2024-12-25;2025-06-25;1;86569929020</p>
   </label>-->
-  <textarea class="labelListas" name="" id="listasText" rows="8" cols="40" oninput="percorrer()"></textarea>
+  <textarea class="labelListas" name="" id="listasText" rows="8" cols="40" oninput="percorrer(), ajuste()"></textarea>
   <label class="labelListas d-n" id="listas">
    02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085 03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196 93603835034;MAURICIO
    02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085 03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196 93603835034;MAURICIO
@@ -117,7 +117,118 @@
    RIOS;2024-12-25;2025-06-25;1;01048137090 02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085
   </label>
   <label class="labelListas" id="viewListas"> </label>
+  <label class="labelListas" id="viewAjustes"></label>
   <script type="text/javascript" charset="utf-8">
+   function percorrer() {
+    const listas = document.querySelector("#listas");
+    const viewListas = document.querySelector("#viewListas");
+    viewListas.innerHTML = ``;
+
+    // Obter o conteúdo do elemento <label>
+    const label = document.getElementById("listasText").value;
+
+    // Expressão regular para encontrar CPFs (sequências de 11 dígitos)
+    const regexCPF = /\b\d{11}\b/g;
+
+    // Extrair CPFs do texto
+    const cpfs = label.match(regexCPF);
+
+    // Criar um mapa para contar as ocorrências
+    const cpfCounts = cpfs.reduce((acc, cpf) => {
+     acc[cpf] = (acc[cpf] || 0) + 1;
+     return acc;
+    }, {});
+
+    // Separar os CPFs repetidos (mais de 2 ocorrências)
+    const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
+
+    // Dividir o texto original em registros com base em quebras (supondo registros separados por espaço ou quebra de linha)
+    const registros = label.split(/(?<=\d{11})\s+/);
+
+    // Identificar os registros completos que contêm CPFs repetidos
+    const registrosRepetidos = registros.filter(registro => repeatedCPFs.some(cpf => registro.includes(cpf)));
+
+    // Verificar se há CPFs repetidos
+    if (repeatedCPFs.length === 0) {
+     console.log("Nenhum CPF repetido encontrado.");
+    }
+
+    console.log(repeatedCPFs);
+
+    // Exibir a quantidade de vezes que cada CPF repetido foi encontrado
+    repeatedCPFs.forEach(cpf => {
+     // Filtrar os registros para o CPF atual
+     const registrosDoCpf = registrosRepetidos.filter(registro => registro.includes(cpf));
+     console.log(`O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.`);
+
+     const p = document.createElement("span");
+     p.classList.add("el");
+     p.innerHTML = `
+      <p class="">
+      O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.
+      </p>
+      <p class="">
+      CPF: <br/> ${cpf}
+      </p>
+      <p class="">
+      Registros completos:
+      </p>
+      <ul class="ul">
+        ${registrosDoCpf.map(registro => `<li style="margin: 6px;">${registro}</li>`).join("")}
+      </ul>
+    `;
+     viewListas.appendChild(p);
+    });
+
+    // Adicionar um <span> contendo todos os CPFs repetidos
+    const spanCPFsRepetidos = document.createElement("span");
+    spanCPFsRepetidos.classList.add("cpf-repetidos");
+    spanCPFsRepetidos.innerHTML = `
+    <h3>CPFs Repetidos:</h3>
+    <ul>
+      ${repeatedCPFs.map(cpf => `<li>${cpf}</li>`).join("")}
+    </ul>
+  `;
+    viewListas.prepend(spanCPFsRepetidos);
+   }
+   
+      function ajuste() {
+     console.log("ajuste");
+  const label = document.getElementById("listasText").value; // Obter o texto da variável label
+  const viewAjustes = document.getElementById("viewAjustes"); // Elemento onde o resultado será exibido
+  viewAjustes.innerHTML = ``; // Limpar o conteúdo anterior
+
+  // Separar os registros por quebra de linha
+  const registros = label.split(/\r?\n/);
+
+  // Processar cada registro
+  const registrosAjustados = registros.map(registro => {
+    // Dividir o registro em partes usando o delimitador ';'
+    const partes = registro.split(";");
+
+    if (partes.length > 1) {
+      // Obter o nome completo (segunda parte do registro)
+      const nomeCompleto = partes[1].trim();
+
+      // Dividir o nome completo em palavras
+      const nomes = nomeCompleto.split(" ");
+
+      // Obter o primeiro nome e o último sobrenome
+      const primeiroNome = nomes[0];
+      const ultimoSobrenome = nomes[nomes.length - 1];
+
+      // Atualizar a segunda parte do registro com o formato ajustado
+      partes[1] = `${primeiroNome} ${ultimoSobrenome}`;
+    }
+
+    // Reconstruir o registro ajustado
+    return partes.join(";");
+  });
+
+  // Atualizar o innerHTML com os registros ajustados, cada um em uma linha
+  viewAjustes.innerHTML = registrosAjustados.join("<br>");
+}
+   
    /*   function functionName() {
    const viewListas = document.querySelector("#viewListas");
     // Obter o conteúdo do elemento <label>
@@ -279,78 +390,6 @@
     // console.log("Registros completos com CPFs repetidos:", registrosRepetidos);
    }
    
-   function percorrer() {
-    const listas = document.querySelector("#listas");
-    const viewListas = document.querySelector("#viewListas");
-    viewListas.innerHTML = ``;
-
-    // Obter o conteúdo do elemento <label>
-    const label = document.getElementById("listasText").value;
-
-    // Expressão regular para encontrar CPFs (sequências de 11 dígitos)
-    const regexCPF = /\b\d{11}\b/g;
-
-    // Extrair CPFs do texto
-    const cpfs = label.match(regexCPF);
-
-    // Criar um mapa para contar as ocorrências
-    const cpfCounts = cpfs.reduce((acc, cpf) => {
-     acc[cpf] = (acc[cpf] || 0) + 1;
-     return acc;
-    }, {});
-
-    // Separar os CPFs repetidos (mais de 2 ocorrências)
-    const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
-
-    // Dividir o texto original em registros com base em quebras (supondo registros separados por espaço ou quebra de linha)
-    const registros = label.split(/(?<=\d{11})\s+/);
-
-    // Identificar os registros completos que contêm CPFs repetidos
-    const registrosRepetidos = registros.filter(registro => repeatedCPFs.some(cpf => registro.includes(cpf)));
-
-    // Verificar se há CPFs repetidos
-    if (repeatedCPFs.length === 0) {
-     console.log("Nenhum CPF repetido encontrado.");
-    }
-
-    console.log(repeatedCPFs);
-
-    // Exibir a quantidade de vezes que cada CPF repetido foi encontrado
-    repeatedCPFs.forEach(cpf => {
-     // Filtrar os registros para o CPF atual
-     const registrosDoCpf = registrosRepetidos.filter(registro => registro.includes(cpf));
-     console.log(`O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.`);
-
-     const p = document.createElement("span");
-     p.classList.add("el");
-     p.innerHTML = `
-      <p class="">
-      O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.
-      </p>
-      <p class="">
-      CPF: <br/> ${cpf}
-      </p>
-      <p class="">
-      Registros completos:
-      </p>
-      <ul class="ul">
-        ${registrosDoCpf.map(registro => `<li style="margin: 6px;">${registro}</li>`).join("")}
-      </ul>
-    `;
-     viewListas.appendChild(p);
-    });
-
-    // Adicionar um <span> contendo todos os CPFs repetidos
-    const spanCPFsRepetidos = document.createElement("span");
-    spanCPFsRepetidos.classList.add("cpf-repetidos");
-    spanCPFsRepetidos.innerHTML = `
-    <h3>CPFs Repetidos:</h3>
-    <ul>
-      ${repeatedCPFs.map(cpf => `<li>${cpf}</li>`).join("")}
-    </ul>
-  `;
-    viewListas.prepend(spanCPFsRepetidos);
-   }
 
    function functionNames() {
     const viewListas = document.querySelector("#viewListas");
