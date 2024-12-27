@@ -226,13 +226,13 @@
     viewAjustes.addEventListener("click", () => {
      const invalido = document.querySelector("#invalido");
      navigator.clipboard
-      .writeText(textoCompleto)
+      .writeText(textoCompleto.split("<br>").join(`\n`))
       .then(() => {
        invalido.style = "visibility: visible; font-size: 10px; color: #28abab";
        invalido.innerHTML = "Itens copiados com sucesso!";
 
        //console.log(textoCompleto.split("<br>"));
-       console.log(registrosAjustados);
+       console.log(textoCompleto.split("<br>").join(`\n`));
        setTimeout(function () {
         invalido.style = "visibility: hidden";
        }, 3500);
