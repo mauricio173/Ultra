@@ -49,7 +49,8 @@
     border: 3px solid #000;
    }
 
-   #listas, #viewAjustes {
+   #listas,
+   #viewAjustes {
     display: flex;
     flex-wrap: wrap;
     width: calc(100vw - 20%);
@@ -58,11 +59,11 @@
     margin: 3px auto;
     border: 3px solid #000;
    }
-   
+
    #h1 {
-  width: calc(100%);
-  text-align: center;
-}
+    width: calc(100%);
+    text-align: center;
+   }
 
    .labelListas .el {
     background: #303030;
@@ -110,11 +111,11 @@
   </label>-->
   <textarea class="labelListas" name="" id="listasText" rows="8" cols="40" oninput="percorrer(), ajuste()"></textarea>
   <label class="labelListas d-n" id="listas">
-   02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085 03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196 93603835034;MAURICIO
-   02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085 03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196 93603835034;MAURICIO
-   RIOS;2024-12-25;2025-06-25;1;93603835034 86569929020;MAURICIO RIOS;2024-12-25;2025-06-25;1;86569929020 00997902035;MAURICIO RIOS;2024-12-25;2025-06-25;1;00997902035
-   01048137090;MAURICIO RIOS;2024-12-25;2025-06-25;1;01048137090 02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085 01048137090;MAURICIO
-   RIOS;2024-12-25;2025-06-25;1;01048137090 02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085
+   02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085 03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196 93603835034;MAURICIO 02175203085;MAURICIO
+   RIOS;2024-12-25;2025-06-25;1;02175203085 03312991196;MAURICIO RIOS;2024-12-25;2025-06-25;1;03312991196 93603835034;MAURICIO RIOS;2024-12-25;2025-06-25;1;93603835034
+   86569929020;MAURICIO RIOS;2024-12-25;2025-06-25;1;86569929020 00997902035;MAURICIO RIOS;2024-12-25;2025-06-25;1;00997902035 01048137090;MAURICIO
+   RIOS;2024-12-25;2025-06-25;1;01048137090 02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085 01048137090;MAURICIO RIOS;2024-12-25;2025-06-25;1;01048137090
+   02175203085;MAURICIO RIOS;2024-12-25;2025-06-25;1;02175203085
   </label>
   <label class="labelListas" id="viewListas"> </label>
   <label class="labelListas" id="viewAjustes"></label>
@@ -191,22 +192,21 @@
   `;
     viewListas.prepend(spanCPFsRepetidos);
    }
-   
-      function ajuste() {
-     console.log("ajuste");
-  const label = document.getElementById("listasText").value; // Obter o texto da variável label
-  const viewAjustes = document.getElementById("viewAjustes"); // Elemento onde o resultado será exibido
-  viewAjustes.innerHTML = ``; // Limpar o conteúdo anterior
 
-  // Separar os registros por quebra de linha
-  const registros = label.split(/\r?\n/);
+   function ajuste() {
+    const label = document.getElementById("listasText").value; // Obter o texto da variável label
+    const viewAjustes = document.getElementById("viewAjustes"); // Elemento onde o resultado será exibido
+    viewAjustes.innerHTML = ``; // Limpar o conteúdo anterior
 
-  // Processar cada registro
-  const registrosAjustados = registros.map(registro => {
-    // Dividir o registro em partes usando o delimitador ';'
-    const partes = registro.split(";");
+    // Separar os registros por quebra de linha
+    const registros = label.split(/\r?\n/);
 
-    if (partes.length > 1) {
+    // Processar cada registro
+    const registrosAjustados = registros.map(registro => {
+     // Dividir o registro em partes usando o delimitador ';'
+     const partes = registro.split(";");
+
+     if (partes.length > 1) {
       // Obter o nome completo (segunda parte do registro)
       const nomeCompleto = partes[1].trim();
 
@@ -219,16 +219,73 @@
 
       // Atualizar a segunda parte do registro com o formato ajustado
       partes[1] = `${primeiroNome} ${ultimoSobrenome}`;
-    }
+     }
 
-    // Reconstruir o registro ajustado
-    return partes.join(";");
-  });
+     // Reconstruir o registro ajustado
+     return partes.join(";");
+    });
+    // Atualizar o innerHTML com os registros ajustados, cada um em uma linha
+    viewAjustes.innerHTML = registrosAjustados.join("<br>");
 
-  // Atualizar o innerHTML com os registros ajustados, cada um em uma linha
-  viewAjustes.innerHTML = registrosAjustados.join("<br>");
-}
-   
+    const textoCompleto = registrosAjustados.join("<br>");
+    viewAjustes.addEventListener("click", () => {
+     const invalido = document.querySelector("#invalido");
+     navigator.clipboard
+      .writeText(textoCompleto)
+      .then(() => {
+       invalido.style = "visibility: visible; font-size: 10px; color: #28abab";
+       invalido.innerHTML = "Itens copiados com sucesso!";
+
+       //console.log(textoCompleto.split("<br>"));
+       console.log(registrosAjustados);
+       setTimeout(function () {
+        invalido.style = "visibility: hidden";
+       }, 3500);
+      })
+      .catch(err => {
+       console.error("Erro ao copiar texto: ", err);
+      });
+     // console.log(textoCompleto.split("<br>"));
+    });
+   }
+
+   function ajustes() {
+    console.log("ajuste");
+    const label = document.getElementById("listasText").value; // Obter o texto da variável label
+    const viewAjustes = document.getElementById("viewAjustes"); // Elemento onde o resultado será exibido
+    viewAjustes.innerHTML = ``; // Limpar o conteúdo anterior
+
+    // Separar os registros por quebra de linha
+    const registros = label.split(/\r?\n/);
+
+    // Processar cada registro
+    const registrosAjustados = registros.map(registro => {
+     // Dividir o registro em partes usando o delimitador ';'
+     const partes = registro.split(";");
+
+     if (partes.length > 1) {
+      // Obter o nome completo (segunda parte do registro)
+      const nomeCompleto = partes[1].trim();
+
+      // Dividir o nome completo em palavras
+      const nomes = nomeCompleto.split(" ");
+
+      // Obter o primeiro nome e o último sobrenome
+      const primeiroNome = nomes[0];
+      const ultimoSobrenome = nomes[nomes.length - 1];
+
+      // Atualizar a segunda parte do registro com o formato ajustado
+      partes[1] = `${primeiroNome} ${ultimoSobrenome}`;
+     }
+
+     // Reconstruir o registro ajustado
+     return partes.join(";");
+    });
+
+    // Atualizar o innerHTML com os registros ajustados, cada um em uma linha
+    viewAjustes.innerHTML = registrosAjustados.join("<br>");
+   }
+
    /*   function functionName() {
    const viewListas = document.querySelector("#viewListas");
     // Obter o conteúdo do elemento <label>
@@ -327,7 +384,6 @@
     // console.log("Registros completos com CPFs repetidos:", registrosRepetidos);
    }
    function percorrerr() {
-   
     const viewListas = document.querySelector("#viewListas");
     viewListas.innerHTML = ``;
     // Obter o conteúdo do elemento <label>
@@ -389,7 +445,6 @@
     // Exibir os registros completos associados aos CPFs repetidos
     // console.log("Registros completos com CPFs repetidos:", registrosRepetidos);
    }
-   
 
    function functionNames() {
     const viewListas = document.querySelector("#viewListas");
