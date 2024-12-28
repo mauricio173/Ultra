@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/index.css" />
+  <script src="js/index.js" defer></script>
+
+  <title>PercorrerLista</title>
+  <!--  <style type="text/css" media="all">
+   * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    --dark: #181818dd;
+    --white: #fdfdfd;
+    --red: #f9004d;
+    --roxo: #986dff;
+    --verde: #a6fc98;
+   }
+
+   body {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    margin: 3px;
+   }
+
+   header,
+   main,
+   aside,
+   footer {
+    display: flex;
+    flex-wrap: wrap;
+    flex: 1;
+    background: #828282;
+   }
+
+   main,
+   footer {
+    flex: 1 1 100vw;
+   }
+
+   .labelListas {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: calc(100vw - 20%);
+    overflow: scroll;
+    margin: 3px auto;
+    border: 3px solid #000;
+   }
+
+   #listas,
+   #viewAjustes {
+    display: flex;
+    flex-wrap: nowrap;
+    width: calc(100vw - 20%);
+    height: 250px;
+    overflow: scroll;
+    margin: 3px auto;
+    border: 3px solid #000;
+   }
+   #viewListas {
+    flex-flow: column wrap;
+    max-height: 250px;
+   }
+   .cpf-repetidos {
+   }
+   #listas {
+    display: none !important;
+   }
+
+   .labelListas .el {
+    background: #303030;
+    color: var(--white);
+    margin: 8px;
+   }
+
+   .el li {
+    font-size: 12px;
+   }
+
+   .el p {
+    margin: 6px;
+   }
+
+   .ul,
+   .ul li {
+    margin: 0;
+    padding: 0;
+   }
+
+   /* Mobile */
+   @media screen and (max-width: 800px) {
+   }
+   /* Device */
+   @media screen and (min-width: 800px) {
+   }
+  </style>-->
+  <style type="text/css" media="all">
+   
+  </style>
+   <style>
+#abrir-popup:checked ~ #conteudo {
+  display: block;
+}
+#fechar-popup:checked ~ #conteudo, #fechar-popup:checked ~ #fechar-popup-btn{
+  display: none;
+}
+
+#abrir-popup-btn {
+  display: block;
+  color: white;
+  background-color: #a45fd2;
+  width: fit-content;
+  padding: 12px 34px;
+  border-radius: 4px;
+  box-shadow: 0px 5px 15px -5px #20003044;
+  cursor: pointer;
+}
+/*#fechar-popup-btn {
+  background-color: #00000020;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}*/
+#fechar-popup-btn {
+  background-color: #00000020;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+#conteudo {
+  box-sizing: border-box;
+  position: fixed;
+  width: min(380px, 90vw);
+  height: 160px;
+  /*
+  left: max(calc(50vw - 380px / 2), 4vw);
+  top: calc(50vh - 80px);
+  */
+  left: max(calc(50vw - 380px / 2), 4vw);
+  top: calc(50vh - 250px);
+  padding: 22px;
+  background-color: #efd7ff;
+  border: 2px solid #c59fde;
+  border-radius: 8px;
+  box-shadow: 0px 5px 15px -5px #0000003c;
+  overflow: scroll;
+}
+</style>
+ </head>
+ <body>
+
+<input id="abrir-popup" name="popup" type="radio" hidden>
+<input id="fechar-popup" name="popup" type="radio" hidden checked>
+
+<label id="abrir-popup-btn" for="abrir-popup" style="display: none">Abrir</label>
+
+<div id="conteudo">
+<label id="fechar-popup-btn" for="fechar-popup" hidden>Fechar</label>
+  <p>Itens copiados com sucesso!</p>
+</div>
+   <script type="text/javascript" charset="utf-8">
+     
+   </script>
+   
+  <header class="header">
+   <img src="https://mauricio173.github.io/Ultra/img/logo-ultra.png" alt="Logotipo Academia Ultra" style="width: 80px; height: 50px" />
+   <nav class="nav">
+    <ul class="">
+     <li><a href="https://mauricio173.github.io/Ultra" target="_blank"> Início </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Estacionamento/index.html" target="_blank"> GARAGEM </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Tarefas/index.html" target="_blank"> Tarefa </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Estacionamento/PercorrerLista/index.html" target="_blank"> Lista </a></li>
+    </ul>
+   </nav>
+  </header>
+  <h1 onclick="labelsValue(), percorre(), ajuste()" id="h1">PercorrerLista</h1>
+  <textarea class="labelListas" name="" id="listasText" rows="8" cols="40" oninput="percorre(), ajuste()"></textarea>
+
+  <h3 class="h1">CPFS REPETIDOS:</h3>
+  <div class="" id="viewLista">
+   
+  </div>
+
+  <h3 class="h1" style="display: none !important;">CPFS REPETIDOS:</h3>
+  <label class="labelListas" id="viewListas" style="display: none !important;"></label>
+  <h3 class="h1">NOMES AJUSTADOS:</h3>
+  <p class="invalido" id="invalido"></p>
+  <label class="labelListas" id="viewAjustes"></label>
+  <footer class="footer"></footer>
+  <script type="text/javascript" charset="utf-8">
+   function percorrer() {
+    const listas = document.querySelector("#listas");
+    const viewListas = document.querySelector("#viewListas");
+    viewListas.innerHTML = ``;
+
+    // Obter o conteúdo do elemento <label>
+    const label = document.getElementById("listasText").value;
+    // Expressão regular para encontrar CPFs (sequências de 11 dígitos)
+    const regexCPF = /\b\d{11}\b/g;
+
+    // Extrair CPFs do texto
+    const cpfs = label.match(regexCPF);
+
+    // Criar um mapa para contar as ocorrências
+    const cpfCounts = cpfs.reduce((acc, cpf) => {
+     acc[cpf] = (acc[cpf] || 0) + 1;
+     return acc;
+    }, {});
+
+    // Separar os CPFs repetidos (mais de 2 ocorrências)
+    const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
+
+    // Dividir o texto original em registros com base em quebras (supondo registros separados por espaço ou quebra de linha)
+    const registros = label.split(/(?<=\d{11})\s+/);
+
+    // Identificar os registros completos que contêm CPFs repetidos
+    const registrosRepetidos = registros.filter(registro => repeatedCPFs.some(cpf => registro.includes(cpf)));
+
+    // Verificar se há CPFs repetidos
+    if (repeatedCPFs.length === 0) {
+     console.log("Nenhum CPF repetido encontrado.");
+    }
+
+    //console.log(repeatedCPFs);
+
+    // Exibir a quantidade de vezes que cada CPF repetido foi encontrado
+    repeatedCPFs.forEach(cpf => {
+     // Filtrar os registros para o CPF atual
+     const registrosDoCpf = registrosRepetidos.filter(registro => registro.includes(cpf));
+     console.log(`O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.`);
+
+     // const p = document.createElement("span");
+     const p = document.createElement("div");
+     p.classList.add("el");
+     p.innerHTML = `
+      <p class="">
+      O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.
+      </p>
+      <p class="">
+      CPF: <br/> ${cpf}
+      </p>
+      <p class="">
+      Registros completos:
+      </p>
+      <ul class="ul">
+        ${registrosDoCpf.map(registro => `<li style="margin: 6px;">${registro}</li>`).join("")}
+      </ul>
+    `;
+     viewListas.appendChild(p);
+    });
+
+    // Adicionar um <span> contendo todos os CPFs repetidos
+    const spanCPFsRepetidos = document.createElement("div");
+
+    spanCPFsRepetidos.classList.add("cpf-repetidos");
+    spanCPFsRepetidos.classList.add("el");
+    spanCPFsRepetidos.innerHTML = `
+    <h3>CPFs Repetidos:</h3>
+    <ul>
+      ${repeatedCPFs.map(cpf => `<li>${cpf}</li>`).join("")}
+    </ul>
+  `;
+    viewListas.prepend(spanCPFsRepetidos);
+   }
+
+   function percorre() {
+    const viewListas = document.querySelector("#viewLista");
+    viewListas.innerHTML = ``;
+
+    // Obter o conteúdo do elemento <label>
+    const label = document.getElementById("listasText").value;
+    // Expressão regular para encontrar CPFs (sequências de 11 dígitos)
+    const regexCPF = /\b\d{11}\b/g;
+
+    // Extrair CPFs do texto
+    const cpfs = label.match(regexCPF);
+
+    // Criar um mapa para contar as ocorrências
+    const cpfCounts = cpfs.reduce((acc, cpf) => {
+     acc[cpf] = (acc[cpf] || 0) + 1;
+     return acc;
+    }, {});
+
+    // Separar os CPFs repetidos (mais de 2 ocorrências)
+    const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
+
+    // Dividir o texto original em registros com base em quebras (supondo registros separados por espaço ou quebra de linha)
+    const registros = label.split(/(?<=\d{11})\s+/);
+
+    // Identificar os registros completos que contêm CPFs repetidos
+    const registrosRepetidos = registros.filter(registro => repeatedCPFs.some(cpf => registro.includes(cpf)));
+
+    // Verificar se há CPFs repetidos
+    if (repeatedCPFs.length === 0) {
+     console.log("Nenhum CPF repetido encontrado.");
+    }
+
+    //console.log(repeatedCPFs);
+
+    // Exibir a quantidade de vezes que cada CPF repetido foi encontrado
+    repeatedCPFs.forEach(cpf => {
+     // Filtrar os registros para o CPF atual
+     const registrosDoCpf = registrosRepetidos.filter(registro => registro.includes(cpf));
+     console.log(`O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.`);
+
+     // const p = document.createElement("span");
+     /*
+     <div class="cpfRepetidoRegistros">
+    <p>
+    O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.
+    </p>
+    <p>
+     CPF: <br/> 
+     ${cpf}
+    </p>
+    <h4>Registros completos:</h4>
+    <ul class="ulListas">
+      ${registrosDoCpf.map(registro => `<li style="margin: 6px;">${registro}</li>`).join("")}
+    </ul>
+   </div>
+     */
+     const div = document.createElement("div");
+     div.classList.add("cpfRepetidoRegistros");
+     /*
+     div.innerHTML = `
+      <p class="">
+      O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.
+      </p>
+      <p class="">
+      CPF: <br/> ${cpf}
+      </p>
+      <p class="">
+      Registros completos:
+      </p>
+      <ul class="ul">
+        ${registrosDoCpf.map(registro => `<li style="margin: 6px;">${registro}</li>`).join("")}
+      </ul>
+    `;
+    */
+    div.innerHTML = `
+    <p>
+    O CPF ${cpf} foi encontrado em ${cpfCounts[cpf] / 2} registros.
+    </p>
+   <!-- 
+   <p>
+     CPF: <br/> 
+     ${cpf}
+    </p>
+    -->
+    <h4>Registros completos:</h4>
+    <ul class="ulListas">
+      ${registrosDoCpf.map(registro => `<li>${registro}</li>`).join("")}
+    </ul>
+    `;
+     viewListas.appendChild(div);
+    });
+    
+    /*
+    <div class="cpfRepetido">
+    <h3>CPF Repetidos:</h3>
+    <ul class="ulListas">
+     ${repeatedCPFs.map(cpf => `<li>${cpf}</li>`).join("")}
+    </ul>
+   </div>
+    */
+
+    // Adicionar um <span> contendo todos os CPFs repetidos
+    const spanCPFsRepetidos = document.createElement("div");
+
+    spanCPFsRepetidos.classList.add("cpfRepetido");
+    spanCPFsRepetidos.innerHTML = `
+    <h3>CPF Repetidos:</h3>
+    <ul class="ulListas">
+     ${repeatedCPFs.map(cpf => `<li>${cpf} encontrado ${cpfCounts[cpf] / 2} vezes.
+     </li>`).join("")}
+    </ul>
+  `;
+    viewListas.prepend(spanCPFsRepetidos);
+   }
+
+   function labelsValue() {
+    const labels = document.getElementById("listasText");
+    labels.value = `29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+26435681848;ITALO DIMARZIO;2024-09-20;2025-03-20;1;26435681848
+05107842089;ANDRIELLY DE AVILA SILVEIRA;2024-09-20;2025-03-20;1;05107842089
+86059092004;HAMID PUREZA;2024-09-20;2025-03-20;1;86059092004
+86088777087;ANA VICTORIA DAVILA CAMARGO;2024-09-20;2025-03-20;1;86088777087
+03545001040;LEONARDO SANTOS DA SILVA;2024-09-20;2025-03-20;1;03545001040
+00428687008;KIM SAMUEL TAVARES;2024-09-20;2025-03-20;1;00428687008
+03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000
+02669395031;ANDRESSA GRASIELI BRAGA DOS SANTOS;2024-09-20;2025-03-20;1;02669395031
+07904395495;REBECA BLEHM;2024-09-20;2025-03-20;1;07904395495
+86463110078;MICAELLA DE BOER;2024-09-20;2025-03-20;1;86463110078
+86320455020;VITORIA LUCHINI LAMM;2024-09-20;2025-03-20;1;86320455020
+02832630081;GABRIEL HENZE BREGONZI;2024-09-20;2025-03-20;1;02832630081
+02119074054;VANESSA DURANTI DA SILVA;2024-09-20;2025-03-20;1;02119074054
+01603372083;CHRISTOPHER MACEDO LUIZ;2024-09-20;2025-03-20;1;01603372083
+97360309034;DANIEL MOREIRA COELHO;2024-09-20;2025-03-20;1;97360309034
+86842277000;ANDRIELLE FISCHER;2024-09-20;2025-03-20;1;86842277000
+01010327062;ISABELLA NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;01010327062
+00954927044;NATHALIA NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;00954927044
+48335312087;ANA BEATRIZ NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;48335312087
+01336368012;MARCELA DIAS;2024-09-20;2025-03-20;1;01336368012
+02221404025;GIULIA CARINA KRONBAUER RAICHLE;2024-09-20;2025-03-20;1;02221404025
+71008390097;INGLIA LOPES;2024-09-20;2025-03-20;1;71008390097
+00382173090;FABIANA NETTO RIBEIRO;2024-09-20;2025-03-20;1;00382173090
+04502757012;LUISA BURTET MARTINS;2024-09-20;2025-03-20;1;04502757012
+68402082068;DELCA BURTET MARTINS;2024-09-20;2025-03-20;1;68402082068
+89888790072;FERNANDA MEDEIROS LOPES;2024-09-20;2025-03-20;1;89888790072
+00005298008;ALINE RIBEIRO DA SILVEIRA KONIG;2024-09-20;2025-03-20;1;00005298008
+02197384082;ISABELLA VILELA;2024-09-20;2025-03-20;1;02197384082
+01198810041;JULIANO DA SILVIA KONIG;2024-09-20;2025-03-20;1;01198810041
+00888946066;JULIANA PEDROSO JAVIMCZIK;2024-09-20;2025-03-20;1;00888946066
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+02197384082;ISABELLA VILELA;2024-09-20;2025-03-20;1;02197384082
+01198810041;JULIANO DA SILVIA KONIG;2024-09-20;2025-03-20;1;01198810041
+00888946066;JULIANA PEDROSO JAVIMCZIK;2024-09-20;2025-03-20;1;00888946066
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+26435681848;ITALO DIMARZIO;2024-09-20;2025-03-20;1;26435681848
+05107842089;ANDRIELLY DE AVILA SILVEIRA;2024-09-20;2025-03-20;1;05107842089
+86059092004;HAMID PUREZA;2024-09-20;2025-03-20;1;86059092004
+86088777087;ANA VICTORIA DAVILA CAMARGO;2024-09-20;2025-03-20;1;86088777087
+03545001040;LEONARDO SANTOS DA SILVA;2024-09-20;2025-03-20;1;03545001040
+00428687008;KIM SAMUEL TAVARES;2024-09-20;2025-03-20;1;00428687008
+03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000
+02669395031;ANDRESSA GRASIELI BRAGA DOS SANTOS;2024-09-20;2025-03-20;1;02669395031
+07904395495;REBECA BLEHM;2024-09-20;2025-03-20;1;07904395495
+86463110078;MICAELLA DE BOER;2024-09-20;2025-03-20;1;86463110078
+86320455020;VITORIA LUCHINI LAMM;2024-09-20;2025-03-20;1;86320455020
+02832630081;GABRIEL HENZE BREGONZI;2024-09-20;2025-03-20;1;02832630081
+02119074054;VANESSA DURANTI DA SILVA;2024-09-20;2025-03-20;1;02119074054
+01603372083;CHRISTOPHER MACEDO LUIZ;2024-09-20;2025-03-20;1;01603372083
+97360309034;DANIEL MOREIRA COELHO;2024-09-20;2025-03-20;1;97360309034
+86842277000;ANDRIELLE FISCHER;2024-09-20;2025-03-20;1;86842277000
+01010327062;ISABELLA NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;01010327062
+00954927044;NATHALIA NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;00954927044
+48335312087;ANA BEATRIZ NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;48335312087
+01336368012;MARCELA DIAS;2024-09-20;2025-03-20;1;01336368012
+02221404025;GIULIA CARINA KRONBAUER RAICHLE;2024-09-20;2025-03-20;1;02221404025
+71008390097;INGLIA LOPES;2024-09-20;2025-03-20;1;71008390097
+00382173090;FABIANA NETTO RIBEIRO;2024-09-20;2025-03-20;1;00382173090
+04502757012;LUISA BURTET MARTINS;2024-09-20;2025-03-20;1;04502757012
+68402082068;DELCA BURTET MARTINS;2024-09-20;2025-03-20;1;68402082068
+89888790072;FERNANDA MEDEIROS LOPES;2024-09-20;2025-03-20;1;89888790072
+00005298008;ALINE RIBEIRO DA SILVEIRA KONIG;2024-09-20;2025-03-20;1;00005298008
+02197384082;ISABELLA VILELA;2024-09-20;2025-03-20;1;02197384082
+01198810041;JULIANO DA SILVIA KONIG;2024-09-20;2025-03-20;1;01198810041
+00888946066;JULIANA PEDROSO JAVIMCZIK;2024-09-20;2025-03-20;1;00888946066
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+02197384082;ISABELLA VILELA;2024-09-20;2025-03-20;1;02197384082
+01198810041;JULIANO DA SILVIA KONIG;2024-09-20;2025-03-20;1;01198810041
+00888946066;JULIANA PEDROSO JAVIMCZIK;2024-09-20;2025-03-20;1;00888946066
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832`; // Obter o texto da variável label
+   }
+
+   function ajuste() {
+    const label = document.getElementById("listasText").value; // Obter o texto da variável label
+    const viewAjustes = document.getElementById("viewAjustes"); // Elemento onde o resultado será exibido
+    viewAjustes.innerHTML = ``; // Limpar o conteúdo anterior
+
+    // Separar os registros por quebra de linha
+    const registros = label.split(/\r?\n/);
+
+    // Processar cada registro
+    const registrosAjustados = registros.map(registro => {
+     // Dividir o registro em partes usando o delimitador ';'
+     const partes = registro.split(";");
+
+     if (partes.length > 1) {
+      // Obter o nome completo (segunda parte do registro)
+      const nomeCompleto = partes[1].trim();
+
+      // Dividir o nome completo em palavras
+      const nomes = nomeCompleto.split(" ");
+
+      // Obter o primeiro nome e o último sobrenome
+      const primeiroNome = nomes[0];
+      const ultimoSobrenome = nomes[nomes.length - 1];
+
+      // Atualizar a segunda parte do registro com o formato ajustado
+      partes[1] = `${primeiroNome} ${ultimoSobrenome}`;
+     }
+
+     // Reconstruir o registro ajustado
+     return partes.join(";");
+    });
+    // Atualizar o innerHTML com os registros ajustados, cada um em uma linha
+    viewAjustes.innerHTML = registrosAjustados.join("<br>");
+
+    const textoCompleto = registrosAjustados.join("<br>");
+
+    viewAjustes.addEventListener("click", () => {
+      const abrir = document.querySelector("#abrir-popup-btn");
+     const fechar = document.querySelector("#fechar-popup-btn");
+     const invalido = document.querySelector("#invalido");
+     const conteudo = document.querySelector("#conteudo");
+     const conteudoTexto = conteudo.querySelector("p");
+     navigator.clipboard
+      .writeText(textoCompleto.split("<br>").join(`\n`))
+      .then(() => {
+       // console.log(textoCompleto.split("<br>").join(`\n`));
+      // invalido.style = "visibility: visible; font-size: 10px; color: #28abab";
+       invalido.innerHTML = "Itens copiados com sucesso!";
+abrir.click();
+       //console.log(textoCompleto.split("<br>"));
+conteudoTexto.innerHTML = `
+${textoCompleto.split("<br>").join(`\n`)}
+`;
+       setTimeout(function () {
+        invalido.style = "visibility: hidden";
+        fechar.click();
+       }, 3500);
+      })
+      .catch(err => {
+       console.error("Erro ao copiar texto: ", err);
+      });
+     // console.log(textoCompleto.split("<br>"));
+    });
+   }
+
+   document.addEventListener("DOMContentLoaded", () => {
+    /*labelsValue();
+    percorrer();*/
+    percorre();
+    ajuste();
+   });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/eruda" onload="eruda.init()"></script>
+ </body>
+</html>
