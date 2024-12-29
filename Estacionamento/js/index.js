@@ -68,6 +68,7 @@ btnEnviar.addEventListener("click", event => {
  validarCPF();
 // verificar();
 });
+
 btnClear.addEventListener("click", event => {
  event.preventDefault();
  const cadastros = document.querySelector("#cadastros");
@@ -191,7 +192,6 @@ function verificar() {
  
  console.log(cadastrado);
 }
-
 
 function mostrarResultado(mensagem, valido) {
  const cadastros = document.querySelector("#cadastros");
