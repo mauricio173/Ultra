@@ -1,0 +1,529 @@
+<!doctype html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/index.css" />
+  <script src="js/index.js" defer></script>
+
+  <title>PercorrerLista</title>
+
+  <style type="text/css" media="all"></style>
+  <style>
+   #abrir-popup:checked ~ #conteudo {
+    display: block;
+   }
+   #fechar-popup:checked ~ #conteudo,
+   #fechar-popup:checked ~ #fechar-popup-btn {
+    display: none;
+   }
+
+   #abrir-popup-btn {
+    display: block;
+    color: white;
+    background-color: #a45fd2;
+    width: fit-content;
+    padding: 12px 34px;
+    border-radius: 4px;
+    box-shadow: 0px 5px 15px -5px #20003044;
+    cursor: pointer;
+   }
+   /*#fechar-popup-btn {
+  background-color: #00000020;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}*/
+   #fechar-popup-btn {
+    background-color: #00000020;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+   }
+
+   #conteudo {
+    box-sizing: border-box;
+    position: fixed;
+    width: min(380px, 90vw);
+    height: 160px;
+    /*
+  left: max(calc(50vw - 380px / 2), 4vw);
+  top: calc(50vh - 80px);
+  */
+    left: max(calc(50vw - 380px / 2), 4vw);
+    top: calc(50vh - 250px);
+    padding: 22px;
+    background-color: #efd7ff;
+    border: 2px solid #c59fde;
+    border-radius: 8px;
+    box-shadow: 0px 5px 15px -5px #0000003c;
+    overflow: scroll;
+   }
+  </style>
+ </head>
+ <body>
+  <span>
+   <input id="abrir-popup" name="popup" type="radio" hidden />
+   <input id="fechar-popup" name="popup" type="radio" hidden checked />
+
+   <label id="abrir-popup-btn" for="abrir-popup" style="display: none">Abrir</label>
+
+   <div id="conteudo">
+    <label id="fechar-popup-btn" for="fechar-popup" hidden>Fechar</label>
+    <p>Itens copiados com sucesso!</p>
+   </div>
+   <script type="text/javascript" charset="utf-8"></script>
+  </span>
+  <h1>Lista v2</h1>
+  <header class="header">
+   <img src="https://mauricio173.github.io/Ultra/img/logo-ultra.png" alt="Logotipo Academia Ultra" style="width: 80px; height: 50px" />
+   <nav class="nav">
+    <ul class="">
+     <li><a href="https://mauricio173.github.io/Ultra" target="_blank"> Início </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Estacionamento/index.html" target="_blank"> GARAGEM </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Tarefas/index.html" target="_blank"> Tarefa </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Estacionamento/PercorrerLista/indexed.html" target="_blank"> Lista </a></li>
+    </ul>
+   </nav>
+  </header>
+  <h1 onclick="labelsValue(), percorre(), ajuste()" id="h1">PercorrerLista</h1>
+  <textarea class="labelListas" name="" id="listasText" rows="8" cols="40" oninput="percorre(), ajuste(), vencimentos(), ajusteDataFim()"></textarea>
+
+  <h3 class="h1">CPFS REPETIDOS:</h3>
+  <div class="" id="viewLista"></div>
+
+  <h3 class="h1" style="display: none !important">CPFS REPETIDOS:</h3>
+  <label class="labelListas" id="viewListas" style="display: none !important"></label>
+  <h3 class="h1">NOMES AJUSTADOS:</h3>
+  <p class="invalido" id="invalido"></p>
+  <label class="labelListas" id="viewAjustes"></label>
+  <br />
+  <h3 class="h1">CPFS VENCIDOS:</h3>
+  <div class="" id="viewListaVencidos"></div>
+  <br />
+  <br />
+  <h3 class="h1">DATAS AJUSTADAS:</h3>
+  <p class="invalido" id="invalidos"></p>
+  <label class="labelListas" id="viewAjustesData"></label>
+
+  <footer class="footer"></footer>
+  <!--
+  02175203085;MAURICIO RIOS;2025-01-02;2025-03-02;1;02175203085
+03312991196;MAURICIO RIOS;2025-01-02;2025-03-02;1;03312991196
+93603835034;MAURICIO RIOS Holifield;2025-01-02;2025-03-02;1;93603835034
+86569929020;MAURICIO RIOS ALBUQUERQUE;2025-01-02;2025-03-02;1;86569929020
+00997902035;MAURICIO RIOS ramos;2025-01-02;2025-03-02;1;00997902035
+01048137090;MAURICIO RIOS teche;2025-01-02;2025-03-02;1;01048137090
+72779330015;MAURICIO marques RIOS;2025-01-02;2025-03-02;1;72779330015
+    
+    
+  agora observe o seguinte registro:
+  72779330015;MAURICIO marques RIOS;2025-01-02;2025-07-02;1;72779330015
+  
+  A primeira parte é o CPF 72779330015.
+  A segunda parte é o nome completo MAURICIO marques RIOS.
+  A terceira parte é a data inicial 2025-01-02.
+  A quarta parte é a data final 2025-07-02.
+  A quinta parte é o dígito verificador 1.
+  A sexta e último parte é o CPF repetido.
+  Preciso que em <div class="" id="viewListaVencidos"></div>
+  Faça o mesmo que em percorre e em ajuste porém informando as datas finais proximas do vencimento. Considere o vencimento como faltando 4 meses para encerrar. Crie uma função chamada vencimentos que execute o requisito.
+    
+  -->
+  <!--
+   02175203085;MAURICIO RIOS;2025-01-02;2025-03-02;1;02175203085
+03312991196;MAURICIO RIOS;2025-01-02;2025-03-02;1;03312991196
+93603835034;MAURICIO RIOS Holifield;2025-01-02;2025-03-02;1;93603835034
+86569929020;MAURICIO RIOS ALBUQUERQUE;2025-01-02;2025-03-02;1;86569929020
+00997902035;MAURICIO RIOS ramos;2025-01-02;2025-03-02;1;00997902035
+01048137090;MAURICIO RIOS teche;2025-01-02;2025-03-02;1;01048137090
+72779330015;MAURICIO marques RIOS;2025-01-02;2025-03-02;1;72779330015
+  -->
+  <script type="text/javascript" charset="utf-8">
+  /*
+  function vencimentos() {
+    const viewListaVencidos = document.getElementById("viewListaVencidos");
+    const label = document.getElementById("listasText").value;
+
+    viewListaVencidos.innerHTML = ``; // Limpar o conteúdo anterior
+
+    const registros = label.split(/\r?\n/); // Dividir os registros por linha
+    const hoje = new Date(); // Data atual
+
+    const registrosVencendo = registros.filter(registro => {
+        const partes = registro.split(";"); // Dividir o registro em partes
+        if (partes.length < 6) return false; // Ignorar registros incompletos
+
+        const dataFinal = new Date(partes[3]); // Obter a data final
+        const diferencaMeses =
+            (dataFinal.getFullYear() - hoje.getFullYear()) * 12 +
+            (dataFinal.getMonth() - hoje.getMonth()); // Diferença em meses
+
+        return diferencaMeses <= 4 && diferencaMeses >= 0; // Verificar vencimento
+    });
+console.log(registrosVencendo);
+    if (registrosVencendo.length === 0) {
+        viewListaVencidos.innerHTML = `<p>Nenhum registro próximo ao vencimento encontrado.</p>`;
+        return;
+    }
+
+    registrosVencendo.forEach(registro => {
+        const partes = registro.split(";");
+        const cpf = partes[0];
+        const nome = partes[1];
+        const dataFinal = partes[3];
+        const div = document.createElement("div");
+
+        div.classList.add("registroVencendo");
+        div.innerHTML = `
+            <p><strong>CPF:</strong> ${cpf}</p>
+            <p><strong>Nome:</strong> ${nome}</p>
+            <p><strong>Data Final:</strong> ${dataFinal}</p>
+        `;
+    
+        viewListaVencidos.appendChild(div);
+    });
+}
+
+
+function vencimentos() {
+    const viewListaVencidos = document.getElementById("viewListaVencidos");
+    const label = document.getElementById("listasText").value;
+
+    viewListaVencidos.innerHTML = ``; // Limpar o conteúdo anterior
+
+    const registros = label.split(/\r?\n/); // Dividir os registros por linha
+    const hoje = new Date(); // Data atual
+
+    const registrosVencendo = registros.filter(registro => {
+        const partes = registro.split(";"); // Dividir o registro em partes
+        if (partes.length < 6) return false; // Ignorar registros incompletos
+
+        const dataFinal = new Date(partes[3]); // Obter a data final
+        const diferencaMeses =
+            (dataFinal.getFullYear() - hoje.getFullYear()) * 12 +
+            (dataFinal.getMonth() - hoje.getMonth()); // Diferença em meses
+
+        return diferencaMeses <= 4 && diferencaMeses >= 0; // Verificar vencimento
+    });
+
+    if (registrosVencendo.length === 0) {
+        viewListaVencidos.innerHTML = `<p>Nenhum registro próximo ao vencimento encontrado.</p>`;
+        return;
+    }
+
+    registrosVencendo.forEach(registro => {
+        const partes = registro.split(";");
+        const cpf = partes[0];
+        const nome = partes[1];
+        const dataFinal = partes[3];
+        const div = document.createElement("div");
+
+        // Nova estrutura adicionada
+        div.classList.add("cpfRepetidoRegistros");
+        div.innerHTML = `
+            <p>
+                O CPF ${cpf} está próximo do vencimento.
+            </p>
+            <h4>Registro completo:</h4>
+            <ul class="ulListas">
+                <li><strong>CPF:</strong> ${cpf}</li>
+                <li><strong>Nome:</strong> ${nome}</li>
+                <li><strong>Data Final:</strong> ${dataFinal}</li>
+            </ul>
+        `;
+
+        // Append na view
+        viewListaVencidos.appendChild(div);
+    });
+}
+
+function vencimentos() {
+    const viewListaVencidos = document.getElementById("viewListaVencidos");
+    const label = document.getElementById("listasText").value;
+
+    viewListaVencidos.innerHTML = ``; // Limpar o conteúdo anterior
+
+    const registros = label.split(/\r?\n/); // Dividir os registros por linha
+    const hoje = new Date(); // Data atual
+
+    const registrosVencendo = registros.filter(registro => {
+        const partes = registro.split(";"); // Dividir o registro em partes
+        if (partes.length < 6) return false; // Ignorar registros incompletos
+
+        const dataFinal = new Date(partes[3]); // Obter a data final
+        const diferencaMeses =
+            (dataFinal.getFullYear() - hoje.getFullYear()) * 12 +
+            (dataFinal.getMonth() - hoje.getMonth()); // Diferença em meses
+
+        return diferencaMeses <= 4 && diferencaMeses >= 0; // Verificar vencimento
+    });
+
+    if (registrosVencendo.length === 0) {
+        viewListaVencidos.innerHTML = `<p>Nenhum registro próximo ao vencimento encontrado.</p>`;
+        return;
+    }
+
+    // Criar uma estrutura para listar todos os CPFs próximos ao vencimento
+    const listaCPFs = registrosVencendo.map(registro => {
+        const partes = registro.split(";");
+        const cpf = partes[0];
+        const dataFinal = partes[3];
+        return `${cpf} com vencimento em ${dataFinal.split("-").reverse().join("/")}`;
+    });
+
+    const divResumo = document.createElement("div");
+    divResumo.classList.add("cpfRepetidoRegistros");
+    divResumo.innerHTML = `
+        <h3>Registros Próximos ao Vencimento:</h3>
+        <ul class="ulListas">
+            ${listaCPFs.map(cpfInfo => `<li>${cpfInfo}</li>`).join("")}
+        </ul>
+    `;
+
+    // Adicionar o resumo acima dos detalhes individuais
+    viewListaVencidos.appendChild(divResumo);
+
+    // Adicionar detalhes individuais
+    registrosVencendo.forEach(registro => {
+        const partes = registro.split(";");
+        const cpf = partes[0];
+        const nome = partes[1];
+        const dataFinal = partes[3];
+        const div = document.createElement("div");
+
+        div.classList.add("cpfRepetidoRegistros");
+        div.innerHTML = `
+            <p>
+                O CPF ${cpf} está próximo do vencimento.
+            </p>
+            <h4>Registro completo:</h4>
+            <ul class="ulListas">
+                <li><strong>CPF:</strong> ${cpf}</li>
+                <li><strong>Nome:</strong> ${nome}</li>
+                <li><strong>Data Final:</strong> ${dataFinal}</li>
+            </ul>
+        `;
+
+        viewListaVencidos.appendChild(div);
+    });
+}
+
+*/
+
+
+/*
+function vencimentos() {
+    const label = document.getElementById("listasText").value; // Obter o texto do campo
+    const viewListaVencidos = document.getElementById("viewListaVencidos"); // Elemento onde o resultado será exibido
+    viewListaVencidos.innerHTML = ``; // Limpar o conteúdo anterior
+
+    // Separar os registros por quebra de linha
+    const registros = label.split(/\r?\n/);
+
+    const hoje = new Date(); // Data atual
+    const proximidade = 4; // Meses de proximidade
+    const cpfsProcessados = new Set(); // Set para rastrear CPFs já exibidos
+
+    // Função para normalizar nomes (letras maiúsculas e sem acentuações)
+    const normalizarNome = nome => nome
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+
+    // Filtrar registros próximos do vencimento
+    const registrosVencidos = registros.filter(registro => {
+        const partes = registro.split(";");
+
+        if (partes.length >= 4) {
+            const dataFinal = new Date(partes[3]); // Obter a data final
+            const diffMeses = (dataFinal.getFullYear() - hoje.getFullYear()) * 12 + (dataFinal.getMonth() - hoje.getMonth());
+
+            return diffMeses <= proximidade && diffMeses >= 0; // Próximo do vencimento
+        }
+
+        return false;
+    });
+
+    // Agrupar por CPF
+    const registrosPorCPF = registrosVencidos.reduce((acc, registro) => {
+        const partes = registro.split(";");
+        const cpf = partes[0];
+        partes[1] = normalizarNome(partes[1]); // Normalizar nome completo
+
+        if (!acc[cpf]) acc[cpf] = [];
+        acc[cpf].push(partes.join(";")); // Atualizar o registro ajustado
+
+        return acc;
+    }, {});
+
+    // Exibir lista de CPFs próximos do vencimento
+    const spanDetalhes = document.createElement("div");
+    spanDetalhes.classList.add("cpfRepetidoRegistros");
+    spanDetalhes.innerHTML = `
+        <h3>CPFs Próximos do Vencimento:</h3>
+        <ul class="ulListas">
+            ${Object.keys(registrosPorCPF)
+                .filter(cpf => !cpfsProcessados.has(cpf)) // Garantir que o CPF ainda não foi processado
+                .map(cpf => {
+                    cpfsProcessados.add(cpf); // Marcar o CPF como processado
+                    return `<li>${cpf} encontrado ${registrosPorCPF[cpf].length} ${registrosPorCPF[cpf].length > 1 ? "vezes" : "vez"}.</li>`;
+                })
+                .join("")}
+        </ul>
+    `;
+    viewListaVencidos.prepend(spanDetalhes);
+
+    // Exibir registros completos para cada CPF
+    Object.keys(registrosPorCPF).forEach(cpf => {
+        const div = document.createElement("div");
+        div.classList.add("cpfRepetidoRegistros");
+        div.innerHTML = `
+            <p>
+                O CPF ${cpf} está próximo do vencimento em ${registrosPorCPF[cpf].length} ${registrosPorCPF[cpf].length > 1 ? "registros" : "registro"}.
+            </p>
+            <h4>Registros completos:</h4>
+            <ul class="ulListas">
+                ${registrosPorCPF[cpf].map(registro => `<li>${registro}</li>`).join("")}
+            </ul>
+        `;
+        viewListaVencidos.appendChild(div);
+    });
+}
+
+function ajusteDataFim() {
+    const label = document.getElementById("listasText").value; // Obter o texto do campo
+    const viewAjustesData = document.getElementById("viewAjustesData"); // Elemento onde o resultado será exibido
+    const invalidos = document.getElementById("invalidos"); // Mensagem para exibir possíveis erros
+    viewAjustesData.innerHTML = ``; // Limpar o conteúdo anterior
+    invalidos.innerHTML = ``;
+
+    const hoje = new Date(); // Data atual
+    const dataFinal = new Date(); // Data final
+    dataFinal.setMonth(dataFinal.getMonth() + 6); // Adicionar 6 meses à data atual
+
+    // Separar os registros por quebra de linha
+    const registros = label.split(/\r?\n/);
+
+    const registrosAjustados = registros.map(registro => {
+        const partes = registro.split(";");
+
+        if (partes.length < 4) {
+            invalidos.innerHTML += `<p>Registro inválido ou incompleto: ${registro}</p>`;
+            return registro; // Retornar registro sem alteração
+        }
+
+        try {
+            // Processar o nome
+            const nomeCompleto = partes[1].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remover acentos
+            const nomes = nomeCompleto.split(" ");
+            const primeiroNome = nomes[0].toUpperCase();
+            const ultimoSobrenome = nomes[nomes.length - 1].toUpperCase();
+            const nomeAjustado = `${primeiroNome} ${ultimoSobrenome}`;
+
+            // Atualizar as partes do registro
+            partes[1] = nomeAjustado; // Nome ajustado
+            partes[2] = hoje.toISOString().split("T")[0]; // Data inicial (hoje)
+            partes[3] = dataFinal.toISOString().split("T")[0]; // Nova data final (6 meses a partir de hoje)
+
+            return partes.join(";");
+        } catch (error) {
+            invalidos.innerHTML += `<p>Erro ao ajustar registro: ${registro}</p>`;
+            return registro; // Retornar registro sem alteração
+        }
+    });
+
+    // Atualizar o innerHTML com os registros ajustados, cada um em uma linha
+    viewAjustesData.innerHTML = registrosAjustados.join("<br>");
+
+    const textoCompleto = registrosAjustados.join("\n");
+
+    // Evento para copiar o texto ajustado ao clicar
+    viewAjustesData.addEventListener("click", () => {
+        navigator.clipboard
+            .writeText(textoCompleto)
+            .then(() => {
+            	//console.log(textoCompleto);
+                invalidos.innerHTML = `<p class="invalido">Itens ajustados copiados com sucesso!</p>`;
+                setTimeout(() => (invalidos.innerHTML = ``), 3500);
+            })
+            .catch(err => {
+                console.error("Erro ao copiar texto: ", err);
+                invalidos.innerHTML = `<p class="invalido">Erro ao copiar texto!</p>`;
+            });
+    });
+}
+
+*/
+function vencimentos() {
+    const label = document.getElementById("listasText").value; // Obter o texto do campo
+    const viewListaVencidos = document.getElementById("viewListaVencidos"); // Elemento onde o resultado será exibido
+    viewListaVencidos.innerHTML = ``; // Limpar o conteúdo anterior
+
+    // Separar os registros por quebra de linha
+    const registros = label.split(/\r?\n/);
+
+    const hoje = new Date(); // Data atual
+    const proximidade = 4; // Meses de proximidade
+    const cpfsProcessados = new Set(); // Set para rastrear CPFs já exibidos
+
+    // Função para normalizar nomes (letras maiúsculas e sem acentuações)
+    const normalizarNome = nome => nome
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toUpperCase();
+
+    // Filtrar registros próximos do vencimento
+    const registrosVencidos = registros.filter(registro => {
+        const partes = registro.split(";");
+
+        if (partes.length >= 4) {
+            const dataFinal = new Date(partes[3]); // Obter a data final
+            const diffMeses = (dataFinal.getFullYear() - hoje.getFullYear()) * 12 + (dataFinal.getMonth() - hoje.getMonth());
+
+            return diffMeses <= proximidade && diffMeses >= 0; // Próximo do vencimento
+        }
+
+        return false;
+    });
+
+    // Agrupar por CPF
+    const registrosPorCPF = registrosVencidos.reduce((acc, registro) => {
+        const partes = registro.split(";");
+        const cpf = partes[0];
+        partes[1] = normalizarNome(partes[1]); // Normalizar nome completo
+
+        if (!acc[cpf]) acc[cpf] = [];
+        acc[cpf].push(partes.join(";")); // Atualizar o registro ajustado
+
+        return acc;
+    }, {});
+
+    // Exibir lista de CPFs próximos do vencimento
+    const spanDetalhes = document.createElement("div");
+    spanDetalhes.classList.add("cpfRepetidoRegistros");
+    spanDetalhes.innerHTML = `
+        <h3>CPFs Próximos do Vencimento:</h3>
+        <ul class="ulListas">
+            ${Object.keys(registrosPorCPF)
+                .filter(cpf => !cpfsProcessados.has(cpf)) // Garantir que o CPF ainda não foi processado
+                .map(cpf => {
+                    cpfsProcessados.add(cpf); // Marcar o CPF como processado
+                    return `<li>${cpf} encontrado ${registrosPorCPF[cpf].length} ${registrosPorCPF[cpf].length > 1 ? "vezes" : "vez"}.</li>`;
+                })
+                .join("")}
+        </ul>
+    `;
+    viewListaVencidos.prepend(spanDetalhes);
+
+    // Exibir registros completos para cada CPF
+    Object.keys(registrosPorCPF).forEach(cpf => {
+        const div = document.createElement("div");
+        div.classList.add("cpfRepetidoRegistros");
+        div.innerHTML = `
+            <p>
+                O CPF ${
