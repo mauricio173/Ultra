@@ -1,0 +1,273 @@
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+ --preto: #181818dd;
+ --pretoCinza: #303030;
+ --white: #fdfdfd;
+ --red: #f9004d;
+ --azulP: #05465d;
+ --roxo: #a44378;
+ --verde: #28abab;
+ --laranja: #f58e2f;
+ font-family: "Poppins", sans-serif;
+}
+
+body {
+ background: var(--laranja);
+}
+
+p {
+ margin: 0;
+}
+
+a {
+ color: var(--roxo);
+ text-decoration: none;
+}
+
+ul {
+ list-style: none;
+ /* display: flex;
+ flex-flow: row wrap;
+ gap: 16px;
+ margin: 0; */
+}
+
+.header,
+.footer {
+ display: flex;
+ flex-wrap: wrap;
+ flex: 1 1 100vw;
+ background: #fff;
+}
+
+.header {
+ padding: 16px 0;
+}
+
+.header img {
+ margin: 0 18px;
+}
+
+.nav {
+ display: flex;
+ justify-content: space-around;
+ align-items: center;
+ width: calc(100% - 130px);
+}
+
+.nav ul {
+ display: flex;
+ justify-content: space-around;
+ align-items: center;
+ width: 100%;
+ text-transform: uppercase;
+}
+
+header,
+main,
+aside,
+footer {
+ display: flex;
+ flex-wrap: wrap;
+ flex: 1;
+ background: #828282;
+}
+
+header,
+footer {
+ flex: 1 1 100vw;
+}
+
+.labelListas {
+ display: flex;
+ flex-flow: column wrap;
+ width: calc(100vw - 20%);
+ /*overflow: scroll;*/
+ margin: 3px auto;
+ border: 3px solid #000;
+}
+
+/*#listas {
+ display: flex;
+ flex-wrap: wrap;
+ width: calc(100vw - 20%);
+ height: 250px;
+ overflow: scroll;
+ margin: 3px auto;
+ border: 3px solid #000;
+}*/
+
+#h1,
+#invalido,
+.h1 {
+ width: calc(100%);
+ text-align: center;
+}
+
+.invalido {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  width: calc(100vw);
+  height: calc(100vh);
+  padding: 2rem;
+  background: var(--pretoCinza);
+  visibility: hidden;
+}
+
+/*.labelListas .el {
+ background: #303030;
+ color: var(--white);
+ margin: 8px;
+ width: 100%;
+}
+
+.el li {
+ font-size: 12px;
+}
+
+.el p {
+ margin: 6px;
+}
+
+.ul,
+.ul li {
+ margin: 0;
+ padding: 0;
+}
+.cpf-repetidos {
+ display: flex;
+ width: 100%;
+ align-items: flex-start;
+ flex-flow: column wrap;
+ justify-content: flex-start;
+}
+#viewListas {
+ display: flex;
+ flex-flow: column wrap;
+ width: calc(100vw - 20%);
+ height: 250px;
+ overflow: auto;
+ margin: 3px auto;
+ border: 3px solid #000;
+}
+*/
+
+#viewAjustes, #viewAjustesData {
+ display: flex;
+ flex-wrap: nowrap;
+ width: calc(100vw - 20%);
+ height: 250px;
+ white-space: nowrap;
+ overflow: scroll;
+ margin: 3px auto;
+ border: 3px solid #000;
+ background: var(--pretoCinza);
+ color: var(--white);
+ font-size: 10px;
+ padding: 8px;
+}
+
+#viewLista {
+ display: flex;
+ flex-flow: column nowrap;
+ width: calc(100vw - 20%);
+ height: 250px;
+ overflow-x: none;
+ overflow-y: scroll;
+ border: 3px solid #000;
+ margin: 0 auto 8px;
+ padding: 8px;
+ color: var(--white);
+}
+.cpfRepetido,
+.cpfRepetidoRegistros {
+ display: flex;
+ flex-flow: column wrap;
+ width: 100%;
+ flex: 1 1 100vw;
+ margin: 8px 0;
+ padding: 8px;
+ background: #303030;
+}
+
+.cpfRepetidoRegistros p {
+ display: flex;
+ flex-flow: column wrap;
+ width: 100%;
+ margin: 4px auto 24px;
+}
+.ulListas,
+.ulListas li {
+ margin: 0;
+ padding: 0;
+ list-style: none;
+ font-size: 12px;
+ color: var(--white);
+}
+.ulListas {
+ margin-top: 8px;
+}
+
+.cpfRepetidoRegistros .ulListas {
+ margin: 2px 0;
+}
+.cpfRepetidoRegistros .ulListas li {
+ margin: 8px 0;
+}
+
+#viewListaVencidos {
+ display: flex;
+ flex-flow: column nowrap;
+ width: calc(100vw - 20%);
+ height: 250px;
+ overflow-x: none;
+ overflow-y: scroll;
+ border: 3px solid #000;
+ margin: 0 auto 8px;
+ padding: 8px;
+ color: var(--white);
+}
+
+.registroVencendo {
+	padding: 6px;
+	border: 1px solid #fff;
+	background: var(--pretoCinza);
+	margin: 8px 0;
+}
+
+
+/*#viewListaVencidos {
+ display: flex;
+ flex-wrap: nowrap;
+ width: calc(100vw - 20%);
+ height: 250px;
+ overflow: scroll;
+ margin: 3px auto;
+ border: 3px solid #000;
+ background: var(--pretoCinza);
+ color: var(--white);
+ font-size: 10px;
+ padding: 8px;
+}*/
+
+/* Mobile */
+@media screen and (max-width: 800px) {
+ .header {
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+ }
+ .nav {
+   width: 100%;
+  margin: 12px 0 0;
+ }
+}
+/* Device */
+@media screen and (min-width: 800px) {
+}
