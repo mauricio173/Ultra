@@ -90,11 +90,24 @@
     </ul>
    </nav>
   </header>
-  <div class="header">
-  	
+    <div class="container boxBtn">
+  	<button type="button" onclick="percorre()">
+  		Percorrer
+  	</button>
+  	<button type="button" onclick="ajuste()">
+  		Ajuste 
+  	</button>
+  	<button type="button" onclick="vencimentos()">
+  		Vencimento 
+  	</button>
+  	<button type="button" onclick="ajusteDataFim()">
+  		Data Fim 
+  	</button>
   </div>
-  <h1 onclick="labelsValue(), percorre(), ajuste(), vencimentos(), ajusteDataFim()" id="h1">PercorrerLista</h1>
-  <textarea class="labelListas" name="" id="listasText" rows="8" cols="40" oninput="percorre(), ajuste(), vencimentos(), ajusteDataFim()"></textarea>
+  <h1 onclick="labelsValue(), percorre(), ajuste()" id="h1">PercorrerLista</h1>
+  <textarea class="labelListas" name="" id="listasText" rows="8" cols="40" >
+  	<!-- oninput="percorre(), ajuste(), vencimentos(), ajusteDataFim()" -->
+  </textarea>
 
   <h3 class="h1">CPFS REPETIDOS:</h3>
   <div class="" id="viewLista"></div>
