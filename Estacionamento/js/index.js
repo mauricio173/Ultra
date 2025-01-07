@@ -206,7 +206,9 @@ function mostrarResultado(mensagem, valido) {
   .trim(); // Remove acentos e espaços
 
 // const dataInicioValue = dataInicio.value;
+
  const dataInicioValue = dataAtual;
+ console.log(dataAtual);
  const dataFinalValue = dataFinal.value;
 
  if (nomeValue === "" || nomeValue.startsWith(" ")) {
