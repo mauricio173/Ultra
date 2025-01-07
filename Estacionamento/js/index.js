@@ -46,7 +46,7 @@ const btnClear = document.querySelector("#btnClear");
 const invalido = document.querySelector("#invalido");
 const lista = document.querySelector(".lista");
 const hoje = new Date();
-const dataAtual = hoje.getFullYear() + "-" + ((hoje.getMonth() + 1) < 10 ? "0" + (hoje.getMonth() + 1) : (hoje.getMonth() + 1)) + "-" + (hoje.getDate() < 10 ? ("0" + hoje.getDate()) : hoje.getDate());
+const dataAtual = hoje.getFullYear() + "-" + ((hoje.getMonth() + 1) < 10 ? ("0" + (hoje.getMonth() + 1)) : (hoje.getMonth() + 1)) + "-" + (hoje.getDate() < 10 ? ("0" + hoje.getDate()) : hoje.getDate());
 
 // Criar uma nova data baseada na atual
 const dataFutura = new Date(hoje);
