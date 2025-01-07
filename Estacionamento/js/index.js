@@ -205,7 +205,8 @@ function mostrarResultado(mensagem, valido) {
   .replace(/[\u0300-\u036f]/g, "")
   .trim(); // Remove acentos e espaços
 
- const dataInicioValue = dataInicio.value;
+// const dataInicioValue = dataInicio.value;
+ const dataInicioValue = dataAtual;
  const dataFinalValue = dataFinal.value;
 
  if (nomeValue === "" || nomeValue.startsWith(" ")) {
