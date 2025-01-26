@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="pt-br">
+ <head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="index.css" />
+  <script src="index.js" defer></script>
+
+  <title>Ajuste Lista Estacionamento BSS</title>
+ </head>
+ <body>
+  <span>
+   <input id="abrir-popup" name="popup" type="radio" hidden />
+   <input id="fechar-popup" name="popup" type="radio" hidden checked />
+
+   <label id="abrir-popup-btn" for="abrir-popup" style="display: none">Abrir</label>
+
+   <div id="conteudo">
+    <label id="fechar-popup-btn" for="fechar-popup" hidden>Fechar</label>
+    <p>Itens copiados com sucesso!</p>
+   </div>
+  </span>
+  <header class="header">
+   <img src="https://mauricio173.github.io/Ultra/img/logo-ultra.png" alt="Logotipo Academia Ultra" style="width: 80px; height: 50px" />
+   <nav class="nav">
+    <ul class="">
+     <li><a href="https://mauricio173.github.io/Ultra" target="_blank"> Início </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Estacionamento/index.html" target="_blank"> GARAGEM </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Tarefas/index.html" target="_blank"> Tarefa </a></li>
+     <li><a href="https://mauricio173.github.io/Ultra/Estacionamento/PercorrerLista/indexed.html" target="_blank"> Lista </a></li>
+    </ul>
+   </nav>
+  </header>
+  <div class="container boxBtn">
+   <button type="button" onclick="percorre()">REPETIDOS</button>
+   <button type="button" onclick="ajuste()">AJUSTAR NOME</button>
+   <button type="button" onclick="vencimentos()">VENCER</button>
+   <button type="button" onclick="ajusteDataFim()">AJUSTAR DATA</button>
+  </div>
+  <h1 onclick="" id="h1">PercorrerLista</h1>
+  <textarea class="labelListas" name="" id="listasText" rows="8" cols="40">02175203085;MAURICIO MARQUES RIOS;2024-09-20;2025-01-03;1;02175203085 02175203085;MAURICIO TECHE MEYER;2024-09-20;2025-03-02;1;02175203085
+03312991196;MAURICIO BETTIO ROSPIDE;2024-09-20;2025-03-02;1;03312991196
+93603835034;MAURICIO VANDER HOLIFIELD;2024-09-20;2025-03-02;1;93603835034
+86569929020;MAURICIO MOURA ALBUQUERQUE;2024-09-20;2025-03-02;1;86569929020
+00997902035;MAURICIO SILVA RAMOS;2024-09-20;2025-03-02;1;00997902035</textarea>
+<!--  <span>
+  	02175203085;MAURICIO TECHE MEYER;2024-09-20;2025-03-02;1;02175203085
+03312991196;MAURICIO BETTIO ROSPIDE;2024-09-20;2025-03-02;1;03312991196
+93603835034;MAURICIO VANDER HOLIFIELD;2024-09-20;2025-03-02;1;93603835034
+86569929020;MAURICIO MOURA ALBUQUERQUE;2024-09-20;2025-03-02;1;86569929020
+00997902035;MAURICIO SILVA RAMOS;2024-09-20;2025-03-02;1;00997902035
+01048137090;MAURICIO DEV TECHE;2024-09-20;2025-03-02;1;01048137090
+72779330015;MAURICIO SILVEIRA RAMALHO;2024-09-20;2025-03-02;1;72779330015
+  </span>-->
+
+  <h3 class="h1">CPFS REPETIDOS:</h3>
+  <div class="" id="viewLista"></div>
+
+  <h3 class="h1" style="display: none !important">CPFS REPETIDOS:</h3>
+  <label class="labelListas" id="viewListas" style="display: none !important"></label>
+  <h3 class="h1">NOMES AJUSTADOS:</h3>
+  <p class="invalido" id="invalido"></p>
+  <label class="labelListas" id="viewAjustes"></label>
+  <br />
+  <h3 class="h1">CPFS PRÓXIMOS DE VENCER:</h3>
+  <div class="" id="viewListaVencidos"></div>
+  <br />
+  <br />
+  <h3 class="h1">CPFS VENCIDOS:</h3>
+  <div class="" id="viewListaJaVencidos"></div>
+  <script type="text/javascript" charset="utf-8">
+  	function JSClock() {
+  var tempo = new Date();
+  var hora = tempo.getHours();
+  var minuto = tempo.getMinutes();
+  var segundo = tempo.getSeconds();
+  var temp = "" + (hora > 12 ? hora - 12 : hora);
+  if (hora == 0) temp = "12";
+  temp += (minuto < 10 ? ":0" : ":") + minuto;
+  temp += (segundo < 10 ? ":0" : ":") + segundo;
+  temp += hora >= 12 ? " P.M." : " A.M.";
+  return temp;
+}
+filterInt = function (value) {
+  if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) return Number(value);
+  return NaN;
+};
+  </script>
+  <br />
+  <br />
+  <h3 class="h1">DATAS AJUSTADAS:</h3>
+  <p class="invalido" id="invalidos"></p>
+  <label class="labelListas" id="viewAjustesData"></label>
+
+  <footer class="footer"></footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/eruda" onload="eruda.init()"></script>
+ </body>
+</html>
