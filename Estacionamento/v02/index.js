@@ -1,391 +1,521 @@
-function vencimentos() {
-    const viewListaVencidos = document.getElementById("viewListaVencidos");
-    const label = document.getElementById("listasText").value;
 
-    viewListaVencidos.innerHTML = ``; // Limpar o conteúdo anterior
-
-    const registros = label.split(/\r?\n/); // Dividir os registros por linha
-    const hoje = new Date(); // Data atual
-    const cpfsProcessados = new Set(); // Set para rastrear CPFs já exibidos
-     // Função para normalizar nomes (letras maiúsculas e sem acentuações)
-    const normalizarNome = nome => nome
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toUpperCase();
-
-    const registrosVencendo = registros.filter(registro => {
-        const partes = registro.split(";"); // Dividir o registro em partes
-        if (partes.length < 6) return false; // Ignorar registros incompletos
-
-        const dataFinal = new Date(partes[3]); // Obter a data final
-        const diferencaMeses =
-            (dataFinal.getFullYear() - hoje.getFullYear()) * 12 +
-            (dataFinal.getMonth() - hoje.getMonth()); // Diferença em meses
-
-        return diferencaMeses <= 4 && diferencaMeses >= 0; // Verificar vencimento
-    });
-
-    if (registrosVencendo.length === 0) {
-        viewListaVencidos.innerHTML = `<p>Nenhum registro próximo ao vencimento encontrado.</p>`;
-        return;
-    }
+// function percorre() {
+//   const viewListas = document.querySelector("#viewLista");
     
-    // Agrupar por CPF
-    const registrosPorCPF = registrosVencendo.reduce((acc, registro) => {
-        const partes = registro.split(";");
-        const cpf = partes[0];
-        partes[1] = normalizarNome(partes[1]); // Normalizar nome completo
+//   const viewListaAtualizada = document.querySelector("#viewListaAtualizada");
+    
+  
+  
+//   // Data final
+//   const dataFinal = new Date(); 
+    
+//   dataFinal.setMonth(dataFinal.getMonth() + 6); 
+    
+//   let atual = dataFinal.toISOString().split("T")[0];
+    
+//   atual = atual.split("-");
+    
+//   atual[2] = atual[2] < 10 ? "0" + atual[2] : atual[2];
+    
+//   atual = atual.join("-");
 
-        if (!acc[cpf]) acc[cpf] = [];
-        acc[cpf].push(partes.join(";")); // Atualizar o registro ajustado
+//   // Função para validar CPF
+//   function validarCPF(cpf) {
+//       cpf = cpf.replace(/[^\d]+/g, ""); // Remover pontos e traços
+//       if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false; // Verificar tamanho e sequência repetida
+//       let soma = 0, resto;
+//       for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+//       resto = (soma * 10) % 11;
+//       if (resto === 10 || resto === 11) resto = 0;
+//       if (resto !== parseInt(cpf.substring(9, 10))) return false;
 
-        return acc;
-    }, {});
+//       soma = 0;
+//       for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+//       resto = (soma * 10) % 11;
+//       if (resto === 10 || resto === 11) resto = 0;
+//       return resto === parseInt(cpf.substring(10, 11));
+//   }
 
-    // Criar uma estrutura para listar todos os CPFs próximos ao vencimento
-    const listaCPFs = registrosVencendo.map(registro => {
-        const partes = registro.split(";");
-        const cpf = partes[0];
-        const dataFinal = partes[3];
-        return `${cpf} com vencimento em ${dataFinal}`;
-    });
+//     // Obter o conteúdo do elemento <label>
+//   const label = document.getElementById("listasText").value;
+  
+//   const regexCPF = /\b\d{11}\b/g;
+  
+//   const cpfs = label.match(regexCPF) || [];
 
-    const divResumo = document.createElement("div");
-    divResumo.classList.add("cpfRepetidoRegistros");
-    divResumo.innerHTML = `
-       <h3>CPFs com Registros Vencidos:</h3>
-    <ul class="ulListas">
-        ${Object.keys(registrosPorCPF)
-            .filter(cpf => !cpfsProcessados.has(cpf)) // Garantir que o CPF ainda não foi processado
-            .map(cpf => {
-                cpfsProcessados.add(cpf); // Marcar o CPF como processado
-                return `<li>${cpf} encontrado ${registrosPorCPF[cpf].length} ${registrosPorCPF[cpf].length > 1 ? "vezes" : "vez"}.</li>`;
-            })
-            .join("")}
-    </ul>
-    `;
+//   const cpfCounts = cpfs.reduce((acc, cpf) => {
+//       acc[cpf] = (acc[cpf] || 0) + 1;
+//       return acc;
+//   }, {});
 
-    // Adicionar o resumo acima dos detalhes individuais
-    viewListaVencidos.appendChild(divResumo);
+//   const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
+  
+//   const registros = label.split(/(?<=\d{11})\s+/);
+    
+//   const regArray = [];
+//     // Ajustar nome e data final, validar CPF
+//   registros.forEach((item) => {
+//       const parte = item.split(";");
+//       // Validar CPF e remover caracteres desnecessários
+//       const cpfSemFormatacao = parte[0].replace(/[^\d]/g, "");
+//       const cpfValido = validarCPF(cpfSemFormatacao);
 
-    // Adicionar detalhes individuais
-    registrosVencendo.forEach(registro => {
-        const partes = registro.split(";");
-        const cpf = partes[0];
-        const nome = partes[1];
-        let nomes = nome;
-        nomes = nomes.split(" ");
-        nomes = nomes[0] + " " + nomes.pop();
-        console.log(nomes);
-        const dataFinal = partes[3];
-        const div = document.createElement("div");
+//       if (cpfValido) {
+//           const nomeCompleto = parte[1].trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ");
+//           const nome = nomeCompleto[0];
+//           const sobreNome = nomeCompleto[nomeCompleto.length - 1];
+//           const nomeRegistro = nome + " " + sobreNome;
+//           parte[1] = nomeRegistro;
+//           parte[3] = atual;
+//           regArray.push(parte.join(";"));
+//       }
+//   });
+	
+//   const registrosUnico = regArray.reduce((acc, registro) => {
+//       const cpf = registro.match(regexCPF)?.[0];
+//       if (cpf && !acc.has(cpf)) {
+//           acc.set(cpf, registro);
+//       }
+//       return acc;
+//   }, new Map());
 
-        div.classList.add("cpfRepetidoRegistros");
-        div.innerHTML = `
-            <p>
-                O CPF ${cpf} está próximo do vencimento.
-            </p>
-            <h4>Registro completo:</h4>
-            <ul class="ulListas">
-                <li><strong>CPF:</strong> ${cpf}</li>
-                <li><strong>Nome:</strong> ${nomes}</li>
-                <li><strong>Data Final:</strong> ${dataFinal}</li>
-            </ul>
-        `;
+//   repeatedCPFs.forEach(cpf => {
+//       const registrosDoCpf = registros.filter(registro => registro.includes(cpf));
+//       const div = document.createElement("div");
+//       div.classList.add("cpfRepetidoRegistros");
+//       div.innerHTML = `
+//       <p>
+//       O CPF ${cpf} foi encontrado em \n ${registrosDoCpf.length} ${registrosDoCpf.length > 1 ? "registros" : "registro"}.
+//       </p>
+//       <ul class="ulListas scroll_bar">
+//           ${registrosDoCpf.map(registro => `<li>${registro}</li>`).join("")}
+//       </ul>
+//       `;
+//       viewListas.appendChild(div);
+//   });
 
-        viewListaVencidos.appendChild(div);
-    });
-    vencidos();
-}
+//   viewListas.innerHTML = ``;
+//   const registrosDoCpf = registros.filter(registro => registro);
+  
+// console.log(registros);
+// console.log(registrosDoCpf);
+//   	viewListaAtualizada.innerHTML = `
+//   	<h5 class="reset color_green">
+//   	${registros.length > 1 ? registros.length + " Registros Foram Analisados" : registros.length + " Registro Foi Analisado"}  
+//   	</h5>
+//   	<h3 class="reset">REGISTROS ATUALIZADOS:
+//   	</h3>
+  	
+//   `;
+//   // registros.forEach((item, index) => {
+//   // 	const p = document.createElement("p");
+//   // 	p.innerHTML += `${item}`;
+//   // viewListaAtualizada.appendChild(p);
+//   // });
+//   const divs = document.createElement("div");
+    
+//   divs.classList.add("cpfRepetidoRegistros");
+    
+//   divs.classList.add("todosRegistros");
+    
+//   divs.innerHTML = `
+//   <h3></h3>
+//   <ul class="ulListas ulListasLenght scroll_bar">
+//       ${Array.from(registrosUnico.values()).map(registro => `<li>${registro}</li>`).join("")}
+//   </ul>
+//   `;
+    
+//   viewListaAtualizada.appendChild(divs);
+    
+//   const ulLista = document.querySelectorAll(".ulListas");
+    
+//   const ulListasLenght = document.querySelectorAll(".ulListasLenght li");
+    
+//   const todosRegistrosH3 = document.querySelector(".todosRegistros h3");
+    
+//   const p = document.createElement("p");
+  
+//   p.style="margin: 0";
 
-function difDias(inicial, final) {
-    const diffEmMs = new Date(final) - new Date(inicial);
-    const diffEmDays = diffEmMs / (1000 * 60 * 60 * 24);
-    return diffEmDays;
-}
+//   todosRegistrosH3.style="margin: 0";
+  
+//   p.innerHTML = `
+//   ${ulListasLenght.length} Registros Atualizados (Sem Repetição de CPF + Vencimento ${atual.split("-").reverse().join("/")})`;
+ 
+//   todosRegistrosH3.prepend(p);
 
-function vencidos() {
-    const label = document.getElementById("listasText").value; // Obter o texto do campo
-    const viewListaVencidos = document.getElementById("viewListaJaVencidos"); // Elemento onde o resultado será exibido
-    viewListaVencidos.innerHTML = ``; // Limpar o conteúdo anterior
+//   let textoCompleto = [];
+   
+//   ulListasLenght.forEach((item, index) => {
+//   const reg = item.textContent;
+// 	textoCompleto.push(reg);
+//   });
+  
+//   divs.addEventListener("click", () => {
+//     	const viewListaCopia = document.querySelector("#viewListaCopia");
+//     // Junta os itens do array com uma quebra de linha entre eles
+//     const textoComQuebras = textoCompleto.join('\n');
+    
+//     navigator.clipboard.writeText(textoComQuebras)
+//         .then(() => {
+//       // Cria os elementos <li> dinamicamente
+//             const listaItens = textoCompleto.map(item => `<li style="">${item}</li>`).join('');
 
-    // Separar os registros por quebra de linha
-    const registros = label.split(/\r?\n/);
+//             // Insere os itens na <ul> dentro do container
+//             viewListaCopia.innerHTML = `
+//                           <p>ITENS COPIADOS</p>
+//                 <div class="registrosCopiados">
+//                     <ul class="ulListas scroll_bar">
+//                         ${listaItens}
+//                     </ul>
+//                 </div>
+//             `;
 
-    const hoje = new Date(); // Data atual
-    const cpfsProcessados = new Set(); // Set para rastrear CPFs já exibidos
-
-    // Função para normalizar nomes (letras maiúsculas e sem acentuações)
-    const normalizarNome = nome => nome
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .toUpperCase();
-
-    // Filtrar registros já vencidos
-    const registrosVencidos = registros.filter(registro => {
-        const partes = registro.split(";");
-        if (partes.length >= 4) {
-            const dataFinal = new Date(partes[3]); // Obter a data final
-            // Verificar se a data final é anterior à data atual
-            return dataFinal < hoje;
-        }
-        return false;
-    });
-
-    // Agrupar por CPF
-    const registrosPorCPF = registrosVencidos.reduce((acc, registro) => {
-        const partes = registro.split(";");
-        const cpf = partes[0];
-        partes[1] = normalizarNome(partes[1]); // Normalizar nome completo
-
-        if (!acc[cpf]) acc[cpf] = [];
-        acc[cpf].push(partes.join(";")); // Atualizar o registro ajustado
-
-        return acc;
-    }, {});
-console.log(registrosPorCPF);
-    // Exibir lista de CPFs já vencidos
-    const spanDetalhes = document.createElement("div");
-    spanDetalhes.classList.add("cpfRepetidoRegistros");
-    spanDetalhes.innerHTML = `
-        <h3>CPFs com Registros Vencidos:</h3>
-        <ul class="ulListas">
-            ${Object.keys(registrosPorCPF)
-                .filter(cpf => !cpfsProcessados.has(cpf)) // Garantir que o CPF ainda não foi processado
-                .map(cpf => {
-                    cpfsProcessados.add(cpf); // Marcar o CPF como processado
-            
-                    return `<li>${cpf} encontrado ${registrosPorCPF[cpf].length} ${registrosPorCPF[cpf].length > 1 ? "vezes" : "vez"}.</li>`;
-                })
-                .join("")}
-        </ul>
-    `;
-    viewListaVencidos.prepend(spanDetalhes);
-
-    // Exibir registros completos para cada CPF
-    Object.keys(registrosPorCPF).forEach(cpf => {
-        const div = document.createElement("div");
-        div.classList.add("cpfRepetidoRegistros");
-        div.innerHTML = `
-            <p>
-                O CPF ${cpf} possui ${registrosPorCPF[cpf].length} ${registrosPorCPF[cpf].length > 1 ? "registros vencidos" : "registro vencido"}.
-            </p>
-            <h4>Registros completos:</h4>
-            <ul class="ulListas">
-                ${registrosPorCPF[cpf].map(registro => `<li>${registro}</li>`).join("")}
-            </ul>
-        `;
-        viewListaVencidos.appendChild(div);
-    });
-}
-
-function ajusteDataFim() {
-    const label = document.getElementById("listasText").value; // Obter o texto do campo
-    const viewAjustesData = document.getElementById("viewAjustesData"); // Elemento onde o resultado será exibido
-    const invalidos = document.getElementById("invalidos"); // Mensagem para exibir possíveis erros
-    viewAjustesData.innerHTML = ``; // Limpar o conteúdo anterior
-    invalidos.innerHTML = ``;
-
-    const hoje = new Date(); // Data atual
-    const dataFinal = new Date(); // Data final
-    dataFinal.setMonth(dataFinal.getMonth() + 6); // Adicionar 6 meses à data atual
-let atual = dataFinal.toISOString().split("T")[0];
-atual = atual.split("-");
-atual[2] = atual[2] - 1;
-atual[2] < 10 ? atual[2] = "0" + atual[2] : atual[2] = atual[2];
-atual = atual.join("-");
-
-    // Separar os registros por quebra de linha
-    const registros = label.split(/\r?\n/);
-
-    // Usando um Set para evitar duplicação de registros
-    const cpfsProcessados = new Set();
-
-    const registrosAjustados = registros.map(registro => {
-        const partes = registro.split(";");
-
-        if (partes.length < 4) {
-            invalidos.innerHTML += `<p>Registro inválido ou incompleto: ${registro}</p>`;
-            return registro; // Retornar registro sem alteração
-        }
-
-        try {
-            // Processar o nome
-            const nomeCompleto = partes[1].normalize("NFD").replace(/[\u0300-\u036f]/g, ""); // Remover acentos
-            const nomes = nomeCompleto.split(" ");
-            const primeiroNome = nomes[0].toUpperCase();
-            const ultimoSobrenome = nomes[nomes.length - 1].toUpperCase();
-            const nomeAjustado = `${primeiroNome} ${ultimoSobrenome}`;
-
-            // Atualizar as partes do registro
-            partes[1] = nomeAjustado; // Nome ajustado
-            partes[2] = 
-            partes[2];
-            // hoje.toISOString().split("T")[0]; // Data inicial (hoje)
-            partes[3] = 
-            atual;
-            // dataFinal.toISOString().split("T")[0]; // Nova data final (6 meses a partir de hoje)
-
-            if (!cpfsProcessados.has(partes[0])) {
-                cpfsProcessados.add(partes[0]); // Marcar CPF como processado
-                return partes.join(";");
-            }
-
-            return ""; // Ignorar registros repetidos
-        } catch (error) {
-            invalidos.innerHTML += `<p>Erro ao ajustar registro: ${registro}</p>`;
-            return registro; // Retornar registro sem alteração
-        }
-    }).filter(registro => registro !== ""); // Filtrar registros vazios (repetidos)
-
-    // Atualizar o innerHTML com os registros ajustados, cada um em uma linha
-    viewAjustesData.innerHTML = registrosAjustados.join("<br>");
-
-    const textoCompleto = registrosAjustados.join("\n");
-
-    // Evento para copiar o texto ajustado ao clicar
-    viewAjustesData.addEventListener("click", () => {
-        navigator.clipboard
-            .writeText(textoCompleto)
-            .then(() => {
-                invalidos.innerHTML = `<p class="invalido">Itens ajustados copiados com sucesso!</p>`;
-                setTimeout(() => (invalidos.innerHTML = ``), 3500);
-            })
-            .catch(err => {
-                console.error("Erro ao copiar texto: ", err);
-                invalidos.innerHTML = `<p class="invalido">Erro ao copiar texto!</p>`;
-            });
-    });
-}
-
+//             console.log("Texto copiado e exibido na lista!");
+        
+//         })
+//         .catch(err => {
+//             console.error("Erro ao copiar texto: ", err);
+//         });
+// });
+// }
 function percorre() {
-    const viewListas = document.querySelector("#viewLista");
-    viewListas.innerHTML = ``;
+    
+  const viewListaAtualizada = document.querySelector("#viewListaAtualizada");
+    
+  
+  
+  // Data final
+  const dataFinal = new Date(); 
+    
+  dataFinal.setMonth(dataFinal.getMonth() + 6); 
+    
+  let atual = dataFinal.toISOString().split("T")[0];
+    
+  atual = atual.split("-");
+    
+  atual[2] = atual[2] < 10 ? "0" + atual[2] : atual[2];
+    
+  atual = atual.join("-");
+
+  // Função para validar CPF
+  function validarCPF(cpf) {
+      cpf = cpf.replace(/[^\d]+/g, ""); // Remover pontos e traços
+      if (cpf.length !== 11 || /^(\d)\1{10}$/.test(cpf)) return false; // Verificar tamanho e sequência repetida
+      let soma = 0, resto;
+      for (let i = 1; i <= 9; i++) soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+      resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+      soma = 0;
+      for (let i = 1; i <= 10; i++) soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+      resto = (soma * 10) % 11;
+      if (resto === 10 || resto === 11) resto = 0;
+      return resto === parseInt(cpf.substring(10, 11));
+  }
 
     // Obter o conteúdo do elemento <label>
-    const label = document.getElementById("listasText").value;
-    // Expressão regular para encontrar CPFs (sequências de 11 dígitos)
-    const regexCPF = /\b\d{11}\b/g;
+  const label = document.getElementById("listasText").value;
+  
+  const regexCPF = /\b\d{11}\b/g;
+  
+  const cpfs = label.match(regexCPF) || [];
 
-    // Extrair CPFs do texto
-    const cpfs = label.match(regexCPF);
+  const cpfCounts = cpfs.reduce((acc, cpf) => {
+      acc[cpf] = (acc[cpf] || 0) + 1;
+      return acc;
+  }, {});
 
-    // Criar um mapa para contar as ocorrências
-    const cpfCounts = cpfs.reduce((acc, cpf) => {
-        acc[cpf] = (acc[cpf] || 0) + 1;
-        return acc;
-    }, {});
+  const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
+  
+  const registros = label.split(/(?<=\d{11})\s+/);
+    
+  const regArray = [];
+    // Ajustar nome e data final, validar CPF
+  registros.forEach((item) => {
+      const parte = item.split(";");
+      // Validar CPF e remover caracteres desnecessários
+      const cpfSemFormatacao = parte[0].replace(/[^\d]/g, "");
+      const cpfValido = validarCPF(cpfSemFormatacao);
 
-    // Separar os CPFs repetidos (mais de 2 ocorrências)
-    const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
+      if (cpfValido) {
+          const nomeCompleto = parte[1].trim().toUpperCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ");
+          const nome = nomeCompleto[0];
+          const sobreNome = nomeCompleto[nomeCompleto.length - 1];
+          const nomeRegistro = nome + " " + sobreNome;
+          parte[1] = nomeRegistro;
+          parte[3] = atual;
+          regArray.push(parte.join(";"));
+      }
+  });
+	
+  const registrosUnico = regArray.reduce((acc, registro) => {
+      const cpf = registro.match(regexCPF)?.[0];
+      if (cpf && !acc.has(cpf)) {
+          acc.set(cpf, registro);
+      }
+      return acc;
+  }, new Map());
 
-    // Dividir o texto original em registros com base em quebras (supondo registros separados por espaço ou quebra de linha)
-    const registros = label.split(/(?<=\d{11})\s+/);
+  const registrosDoCpf = registros.filter(registro => registro);
+  
+  	viewListaAtualizada.innerHTML = `
+  	<h5 class="reset color_green">
+  	${registros.length > 1 ? registros.length + " Registros Foram Analisados" : registros.length + " Registro Foi Analisado"}  
+  	</h5>
+  	<h3 class="reset">REGISTROS ATUALIZADOS:
+  	</h3>
+  	
+  `;
+  // registros.forEach((item, index) => {
+  // 	const p = document.createElement("p");
+  // 	p.innerHTML += `${item}`;
+  // viewListaAtualizada.appendChild(p);
+  // });
+  const divs = document.createElement("div");
+    
+  divs.classList.add("cpfRepetidoRegistros");
+    
+  divs.classList.add("todosRegistros");
+    
+  divs.innerHTML = `
+  <h3></h3>
+  <ul class="ulListas ulListasLenght scroll_bar">
+      ${Array.from(registrosUnico.values()).map(registro => `<li>${registro}</li>`).join("")}
+  </ul>
+  `;
+    
+  viewListaAtualizada.appendChild(divs);
+    
+  const ulLista = document.querySelectorAll(".ulListas");
+    
+  const ulListasLenght = document.querySelectorAll(".ulListasLenght li");
+    
+  const todosRegistrosH3 = document.querySelector(".todosRegistros h3");
+    
+  const p = document.createElement("p");
+  
+  p.style="margin: 0";
 
-    // Identificar os registros completos que contêm CPFs repetidos
-    const registrosRepetidos = registros.filter(registro => repeatedCPFs.some(cpf => registro.includes(cpf)));
+  todosRegistrosH3.style="margin: 0";
+  
+  p.innerHTML = `
+  ${ulListasLenght.length} Registros Atualizados (Sem Repetição de CPF + Vencimento ${atual.split("-").reverse().join("/")})`;
+ 
+  todosRegistrosH3.prepend(p);
 
-    // Verificar se há CPFs repetidos
-    if (repeatedCPFs.length === 0) {
-        console.log("Nenhum CPF repetido encontrado.");
-    }
-
-    // Exibir a quantidade de vezes que cada CPF repetido foi encontrado
-    repeatedCPFs.forEach(cpf => {
-        // Filtrar os registros para o CPF atual
-        const registrosDoCpf = registrosRepetidos.filter(registro => registro.includes(cpf));
-        
-        const div = document.createElement("div");
-        div.classList.add("cpfRepetidoRegistros");
-        div.innerHTML = `
-        <p>
-        O CPF ${cpf} foi encontrado em ${registrosDoCpf.length} ${registrosDoCpf.length > 1 ? "registros" : "registro"}.
-        </p>
-        <ul class="ulListas">
-            ${registrosDoCpf.map(registro => `<li>${registro}</li>`).join("")}
-        </ul>
-    `;
-        viewListas.appendChild(div);
-    });
-}
-
-// Função para ajustar os registros, evitando duplicação de CPF
-const ajustarRegistros = (registros) => {
-    const cpfsProcessados = new Set(); // Para rastrear CPFs já processados
-    return registros.map(registro => {
-        const partes = registro.split(";");
-        if (partes.length > 1) {
-            const cpf = partes[0];
-            
-            // Verifica se o CPF já foi processado para evitar duplicação
-            if (cpfsProcessados.has(cpf)) {
-                return ""; // Retorna uma string vazia para ignorar registros duplicados
-            }
-            cpfsProcessados.add(cpf); // Marca o CPF como processado
-
-            partes[1] = obterPrimeiroEUltimoNome(partes[1]);
-        }
-        return partes.join(";");
-    }).filter(registro => registro !== ""); // Filtra os registros vazios (duplicados)
-};
-
-// Função para obter o primeiro e o último nome, considerando as partículas
-const obterPrimeiroEUltimoNome = (nomeCompleto) => {
-    const ignorarParticulas = ["da", "de", "do", "das", "dos", "e", "a", "o"];
-    const nomes = nomeCompleto.trim().split(" ");
-    const primeiroNome = nomes[0];
-    let ultimoSobrenome = nomes[nomes.length - 1];
-
-    // Verifica se o último sobrenome é uma partícula e ajusta
-    if (ignorarParticulas.includes(ultimoSobrenome.toLowerCase()) && nomes.length > 1) {
-        ultimoSobrenome = nomes[nomes.length - 2];
-    }
-
-    return `${primeiroNome.toUpperCase()} ${ultimoSobrenome.toUpperCase()}`;
-};
-
-// Função para atualizar a visualização no DOM
-const atualizarView = (elemento, registrosAjustados) => {
-    elemento.innerHTML = registrosAjustados.join("<br>");
-};
-
-// Função para copiar registros para a área de transferência
-const copiarRegistros = (textoCompleto, abrirPopup, fecharPopup, invalido, conteudoTexto) => {
-    navigator.clipboard.writeText(textoCompleto.split("<br>").join("\n"))
+  let textoCompleto = [];
+   
+  ulListasLenght.forEach((item, index) => {
+  const reg = item.textContent;
+ 	textoCompleto.push(reg);
+   });
+  
+  divs.addEventListener("click", () => {
+    	const viewListaCopia = document.querySelector("#viewListaCopia");
+    // Junta os itens do array com uma quebra de linha entre eles
+    const textoComQuebras = textoCompleto.join('\n');
+    
+    navigator.clipboard.writeText(textoComQuebras)
         .then(() => {
-            invalido.innerHTML = "Itens copiados com sucesso!";
-            abrirPopup.click();
-            conteudoTexto.innerHTML = textoCompleto.split("<br>").join("\n");
-            setTimeout(() => {
-                invalido.style.visibility = "hidden";
-                fecharPopup.click();
-            }, 3500);
+       // Cria os elementos <li> dinamicamente
+            const listaItens = textoCompleto.map(item => `<li style="">${item}</li>`).join('');
+
+            // Insere os itens na <ul> dentro do container
+            viewListaCopia.innerHTML = `
+                          <p>ITENS COPIADOS</p>
+                <div class="registrosCopiados">
+                    <ul class="ulListas scroll_bar">
+                        ${listaItens}
+                    </ul>
+                </div>
+            `;
+
+            console.log("Texto copiado e exibido na lista!");
+        
         })
         .catch(err => {
             console.error("Erro ao copiar texto: ", err);
         });
-};
-
-// Função principal
-function ajuste() {
-    const label = document.getElementById("listasText").value;
-    const viewAjustes = document.getElementById("viewAjustes");
-
-    viewAjustes.innerHTML = ``;
-
-    const registros = label.split(/\r?\n/);
-    const registrosAjustados = ajustarRegistros(registros);
-
-    atualizarView(viewAjustes, registrosAjustados);
-
-    const textoCompleto = registrosAjustados.join("<br>");
-    viewAjustes.addEventListener("click", () => {
-        const abrir = document.querySelector("#abrir-popup-btn");
-        const fechar = document.querySelector("#fechar-popup-btn");
-        const invalido = document.querySelector("#invalido");
-        const conteudo = document.querySelector("#conteudo");
-        const conteudoTexto = conteudo.querySelector("p");
-
-        copiarRegistros(textoCompleto, abrir, fechar, invalido, conteudoTexto);
-    });
+});
 }
+
+
+const labelCheck = document.querySelector("#labelCheck");
+
+const maisUm = document.querySelector("#maisUm");
+
+const inputCheck = document.querySelectorAll(".boxe input[type=checkbox]");
+
+inputCheck.forEach((item, index) => {
+	console.log("inputCheck");
+const inp = item.checked;
+item.setAttribute("onclick", "marcaDesmarca(this)");
+});
+
+function marcaDesmarca(caller) {
+  var checks = document.querySelectorAll('.boxe input[type="checkbox"]'); 
+  // checks.forEach(c => c.checked = (c == caller) );
+  if (maisUm.checked) {
+  	return;
+  } else {
+  checks.forEach((c, i) => {
+  	c.checked = (c == caller);
+  });
+  }
+}
+
+
+// itera com método do Array para compatibilidade
+Array.prototype.forEach.call(document.querySelectorAll('.boxe input[type=checkbox], .boxe input[type=radio]'), function(radio) {
+  radio.addEventListener('click', function() {
+    var self = this;
+    // obter elementos com o mesmo nome exceto o próprio e grava estado desmarcado
+    Array.prototype.filter.call(document.getElementsByName(this.name), function(filterEl) {
+      return self !== filterEl;
+    }).forEach(function(otherEl) {
+      delete otherEl.dataset.check;
+    });
+
+    // grava estado baseado no estado anterior
+    if (this.dataset.hasOwnProperty('check')) {
+      this.checked = false;
+      delete this.dataset.check;
+    } else {
+      this.dataset.check = '';
+    }
+  }, false);
+});
+ 
+btnLabel.addEventListener("click",  () => {
+	// listasText.value = "";
+	let regs = "";
+	inputCheck.forEach((item, index) => {
+		if (item.checked && maisUm.checked) {
+			if (item.id == "um") {
+				regs = `03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000
+02669395031;ANDRESSA GRASIELI BRAGA DOS SANTOS;2024-09-20;2025-03-20;1;02669395031
+07904395495;REBECA BLEHM;2024-09-20;2025-03-20;1;07904395495
+86463110078;MICAELLA DE BOER;2024-09-20;2025-03-20;1;86463110078
+86320455020;VITORIA LUCHINI LAMM;2024-09-20;2025-03-20;1;86320455020
+02832630081;GABRIEL HENZE BREGONZI;2024-09-20;2025-03-20;1;02832630081
+02119074054;VANESSA DURANTI DA SILVA;2024-09-20;2025-03-20;1;02119074054
+01603372083;CHRISTOPHER MACEDO LUIZ;2024-09-20;2025-03-20;1;01603372083
+97360309034;DANIEL MOREIRA COELHO;2024-09-20;2025-03-20;1;97360309034
+86842277000;ANDRIELLE FISCHER;2024-09-20;2025-03-20;1;86842277000
+01010327062;ISABELLA NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;01010327062
+00954927044;NATHALIA NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;00954927044
+48335312087;ANA BEATRIZ NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;48335312087
+01336368012;MARCELA DIAS;2024-09-20;2025-03-20;1;01336368012
+	29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+26435681848;ITALO DIMARZIO;2024-09-20;2025-03-20;1;26435681848
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+26435681848;ITALO DIMARZIO;2024-09-20;2025-03-20;1;26435681848
+05107842089;ANDRIELLY DE AVILA SILVEIRA;2024-09-20;2025-03-20;1;05107842089
+86059092004;HAMID PUREZA;2024-09-20;2025-03-20;1;86059092004
+86088777087;ANA VICTORIA DAVILA CAMARGO;2024-09-20;2025-03-20;1;86088777087
+03545001040;LEONARDO SANTOS DA SILVA;2024-09-20;2025-03-20;1;03545001040`;
+listasText.value += regs;
+			}
+			if (item.id == "dois") {
+				regs = `29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000
+03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000`;
+listasText.value += regs;
+			}
+		  if (item.id == "tres") {
+				regs = `29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000`;
+		  	listasText.value += regs;
+		  }
+		  if (item.id == "quatro") {
+				regs = `03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+26435681848;ITALO DIMARZIO;2024-09-20;2025-03-20;1;26435681848`;
+listasText.value += regs;
+
+		  }
+		} 
+		else if (item.checked && !maisUm.checked) {
+			if (item.id == "um") {
+				regs = `03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000
+02669395031;ANDRESSA GRASIELI BRAGA DOS SANTOS;2024-09-20;2025-03-20;1;02669395031
+07904395495;REBECA BLEHM;2024-09-20;2025-03-20;1;07904395495
+86463110078;MICAELLA DE BOER;2024-09-20;2025-03-20;1;86463110078
+86320455020;VITORIA LUCHINI LAMM;2024-09-20;2025-03-20;1;86320455020
+02832630081;GABRIEL HENZE BREGONZI;2024-09-20;2025-03-20;1;02832630081
+02119074054;VANESSA DURANTI DA SILVA;2024-09-20;2025-03-20;1;02119074054
+01603372083;CHRISTOPHER MACEDO LUIZ;2024-09-20;2025-03-20;1;01603372083
+97360309034;DANIEL MOREIRA COELHO;2024-09-20;2025-03-20;1;97360309034
+86842277000;ANDRIELLE FISCHER;2024-09-20;2025-03-20;1;86842277000
+01010327062;ISABELLA NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;01010327062
+00954927044;NATHALIA NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;00954927044
+48335312087;ANA BEATRIZ NOSCHANG MITTELSTAEDT;2024-09-20;2025-03-20;1;48335312087
+01336368012;MARCELA DIAS;2024-09-20;2025-03-20;1;01336368012
+	29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+26435681848;ITALO DIMARZIO;2024-09-20;2025-03-20;1;26435681848
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+26435681848;ITALO DIMARZIO;2024-09-20;2025-03-20;1;26435681848
+05107842089;ANDRIELLY DE AVILA SILVEIRA;2024-09-20;2025-03-20;1;05107842089
+86059092004;HAMID PUREZA;2024-09-20;2025-03-20;1;86059092004
+86088777087;ANA VICTORIA DAVILA CAMARGO;2024-09-20;2025-03-20;1;86088777087
+03545001040;LEONARDO SANTOS DA SILVA;2024-09-20;2025-03-20;1;03545001040`;
+listasText.value = regs;
+			}
+			if (item.id == "dois") {
+				regs = `29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000
+03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000`;
+listasText.value = regs;
+			}
+		  if (item.id == "tres") {
+				regs = `29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000`;
+		  	listasText.value = regs;
+		  }
+		  if (item.id == "quatro") {
+				regs = `03379443000;WAGNER LUIZ NUNES PADILHA;2024-09-20;2025-03-20;1;03379443000
+29044797832;ANDRE RYSEVAS BABBO;2024-09-20;2025-03-20;1;29044797832
+26435681848;ITALO DIMARZIO;2024-09-20;2025-03-20;1;26435681848`;
+listasText.value = regs;
+
+		  }
+		}
+		
+	});
+});
+
+maisUm.addEventListener("click",  () => {
+	if (maisUm.checked) {
+		console.log("Var");
+	}
+	else {
+		inputCheck.forEach(c => c.checked = false);
+	}
+});
+
+
+function JSClock() {
+  var tempo = new Date();
+  var hora = tempo.getHours();
+  var minuto = tempo.getMinutes();
+  var segundo = tempo.getSeconds();
+  var temp = "" + (hora > 12 ? hora - 12 : hora);
+  if (hora == 0) temp = "12";
+  temp += (minuto < 10 ? ":0" : ":") + minuto;
+  temp += (segundo < 10 ? ":0" : ":") + segundo;
+  temp += hora >= 12 ? " P.M." : " A.M.";
+  return temp;
+}
+
+setInterval(function() {
+
+  }, 1000);
+
+filterInt = function (value) {
+  if (/^(\-|\+)?([0-9]+|Infinity)$/.test(value)) return Number(value);
+  return NaN;
+};
