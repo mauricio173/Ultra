@@ -165,7 +165,7 @@ footer {
 	margin: 12px auto;
 	width: 80%;
 	border: 1px solid #000;
-	background: var(--p);
+	background: var(--pretoCinza);
 }
 
 .boxFooter > span > section button {
