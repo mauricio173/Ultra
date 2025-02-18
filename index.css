@@ -359,7 +359,14 @@ footer {
 	border: 1px solid #0cf6ec;
 }
 
-.cpfsRepetidos 
+.cpfsRepetidos {
+	overflow-y: auto;
+	overflow-x: auto;
+	max-height: 600px;
+	height: 200px;
+	margin: 2px 0;
+	border: 1px solid #0cf6ec;
+}
 
 .ulListasLenght li {
 	padding: 0;
