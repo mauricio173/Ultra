@@ -127,8 +127,8 @@ function percorre() {
 
 
 	const registrosDoCpf = registros.filter(registro => registro);
-	function exibirCPFsRepetidos(viewListaAtualizada, cpfCounts, registros);
 	viewDom(viewListaAtualizada, registros, registrosUnico, atual);
+	exibirCPFsRepetidos(viewListaAtualizada, cpfCounts, registros);
 }
 
 function exibirCPFsRepetidos(viewListaAtualizada, cpfCounts, registros) {
