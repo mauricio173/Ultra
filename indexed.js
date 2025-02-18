@@ -85,6 +85,7 @@ function percorre() {
 		acc[cpf] = (acc[cpf] || 0) + 1;
 		return acc;
 	}, {});
+	
 	const repeatedCPFs = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
 	const registros = label.split(/(?<=\d{11})\s+/);
 
