@@ -132,7 +132,7 @@ function percorre() {
 }
 
 function exibirCPFsRepetidos(viewListaAtualizada, cpfCounts, registros) {
-    const cpfsRepetidos = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 1);
+    const cpfsRepetidos = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 2);
     if (cpfsRepetidos.length === 0) return;
     
     const divRepetidos = document.createElement("div");
