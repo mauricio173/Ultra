@@ -90,7 +90,6 @@ function percorre() {
 	
 	const registros = label.split(/(?<=\d{11})\s+/);
 
-
 	const regArray = [];
 	// Ajustar nome e data final, validar CPF
 	registros.forEach(item => {
