@@ -130,6 +130,23 @@ function percorre() {
 	viewDom(viewListaAtualizada, registros, registrosUnico, atual);
 }
 
+function exibirCPFsRepetidos(viewListaAtualizada, cpfCounts, registros) {
+    const cpfsRepetidos = Object.keys(cpfCounts).filter(cpf => cpfCounts[cpf] > 1);
+    if (cpfsRepetidos.length === 0) return;
+    
+    const divRepetidos = document.createElement("div");
+    divRepetidos.classList.add("cpfsRepetidos");
+    divRepetidos.innerHTML = `
+        <h3 class="reset">CPFs Repetidos:</h3>
+        <ul class="ulListas ulListasLenght scroll_bar">
+            ${registros.filter(registro => cpfsRepetidos.some(cpf => registro.includes(cpf)))
+                .map(registro => `<li>${registro}</li>`).join("")}
+        </ul>
+    `;
+    viewListaAtualizada.appendChild(divRepetidos);
+}
+
+
 
 function viewDom(viewListaAtualizada, registros, registrosUnico, atual) {
 	const resDom = () => {
