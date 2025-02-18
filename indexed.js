@@ -130,8 +130,6 @@ function percorre() {
 }
 
 
-
-
 function viewDom(viewListaAtualizada, registros, registrosUnico, atual) {
 	const resDom = () => {
 		return `
