@@ -100,7 +100,7 @@ footer {
 	flex: 1;
 	width: 100%;
 	padding: 12px;
-	background: #f58e2f;
+	background: gold;
 }
 
 /* new boxe */
@@ -165,7 +165,7 @@ footer {
 	margin: 12px auto;
 	width: 80%;
 	border: 1px solid #000;
-	background: #f58e2f;
+	background: var(--p);
 }
 
 .boxFooter > span > section button {
