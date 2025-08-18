@@ -273,7 +273,8 @@ footer {
 	background: #303030;
 }
 .cpfRepetidoRegistros > ul {
-	width: 280px;
+	/*width: 280px;*/
+	width: 100%;
 	white-space: nowrap;
 	overflow-x: scroll;
 	overflow-y: none;
@@ -319,7 +320,8 @@ footer {
 .registrosCopiados {
 	display: flex;
 	flex-flow: column wrap;
-	max-width: 280px;
+	/*width: 280px;*/
+	width: 100%;
 	flex: 1 1 100vw;
 	margin: 8px 0;
 	padding: 8px;
