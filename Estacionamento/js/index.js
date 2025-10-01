@@ -171,7 +171,6 @@ function verificar() {
   
   const cpfValues = cpf.value.replace(/\D/g, "");
  const nomeValues = nome.value
-  .toUpperCase()
   .normalize("NFD")
   .replace(/[\u0300-\u036f]/g, "")
   .trim();
@@ -200,7 +199,6 @@ function mostrarResultado(mensagem, valido) {
  // Normaliza os valores de entrada
  const cpfValue = cpf.value.replace(/\D/g, ""); // Remove caracteres Não numéricos
  const nomeValue = nome.value
-  .toUpperCase()
   .normalize("NFD")
   .replace(/[\u0300-\u036f]/g, "")
   .trim(); // Remove acentos e espaços
@@ -230,7 +228,6 @@ const nomeSobrenome = nomeValue.split(" ");
 
  itens.forEach(item => {
   const itemTexto = item.textContent
-   .toUpperCase()
    .normalize("NFD")
    .replace(/[\u0300-\u036f]/g, ""); // Normaliza texto existente na lista
 
