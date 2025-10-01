@@ -100,7 +100,6 @@ function percorre() {
 		if (cpfValido) {
 			const nomeCompleto = parte[1]
 				.trim()
-				.toUpperCase()
 				.normalize("NFD")
 				.replace(/[\u0300-\u036f]/g, "")
 				.split(" ");
