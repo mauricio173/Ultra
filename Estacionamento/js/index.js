@@ -204,7 +204,7 @@ function mostrarResultado(mensagem, valido) {
   .trim(); // Remove acentos e espaços
 
 // const dataInicioValue = dataInicio.value;
-
+console.log(nomeValue);
  const dataInicioValue = dataAtual;
  console.log(dataAtual);
  const dataFinalValue = dataFinal.value;
@@ -219,7 +219,7 @@ function mostrarResultado(mensagem, valido) {
  }
 const nomeSobrenome = nomeValue.split(" ");
 
- const texto = `${cpfValue};${nomeSobrenome[0]+ " " + nomeSobrenome.pop()};${dataInicioValue};${dataFinalValue};1;${cpfValue}`;
+ const texto = `${cpfValue};${nomeSobrenome[0]};${dataInicioValue};${dataFinalValue};1;${cpfValue}`;
  const itens = cadastros.querySelectorAll("p");
 
  // Verifica se o CPF ou nome já  estão na lista
