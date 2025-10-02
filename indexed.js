@@ -105,7 +105,7 @@ function percorre() {
 				.split(" ");
 			const nome = nomeCompleto[0];
 			const sobreNome = nomeCompleto[nomeCompleto.length - 1];
-			const nomeRegistro = nome + " " + sobreNome;
+			const nomeRegistro = "a";
 			
 			parte[0] = parte[0].replace(/[^\d]/g, "");
 			parte[5] = parte[5].replace(/[^\d]/g, "");
