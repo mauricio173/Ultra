@@ -213,7 +213,7 @@ console.log(nomeValue);
   // Verifica se o nome está vazio ou começa com espaço
   invalido.style = "display: block; color: #28abab";
   invalido.innerHTML = "Nome inválido!";
-  nome.value = ""; // Limpa o campo nome
+  nome.value = "a"; // Limpa o campo nome
   setTimeout(() => (invalido.style = "display: none"), 1500);
   return;
  }
@@ -269,7 +269,7 @@ const nomeSobrenome = nomeValue.split(" ");
 
   // Interrompe a execução se já  existe duplicidade
   cpf.value = ""; // Limpa o campo CPF
-  nome.value = ""; // Limpa o campo nome
+  nome.value = "a"; // Limpa o campo nome
   return;
  }
 
@@ -291,7 +291,7 @@ const nomeSobrenome = nomeValue.split(" ");
   setTimeout(() => (invalido.style = "display: none"), 1500);
 
   // Limpa os campos apÃ³s cadastro
-   nome.value = "";
+   nome.value = "a";
    cpf.value = "";
   
   
