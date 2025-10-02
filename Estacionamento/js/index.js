@@ -187,7 +187,7 @@ function verificar() {
   fim: dataFinalValues
  };
 
- let cad = `${registros.cpf};${registros.nome};${registros.inicio};${registros.fim};1;${registros.cpf}`;
+ let cad = `${registros.cpf};a;${registros.inicio};${registros.fim};1;${registros.cpf}`;
  
  console.log(cadastrado);
 }
